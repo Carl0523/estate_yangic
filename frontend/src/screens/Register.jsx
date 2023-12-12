@@ -10,13 +10,12 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const inputContainer = "flex flex-col gap-1 lg:w-4/6 w-4/5 text-base";
+const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
 export default function Register() {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
 
   const handleFormChange = (event) => {
     setForm((prevForm) => {
@@ -32,28 +31,28 @@ export default function Register() {
 
     // Check empty fields
     if (
-      !form.hasOwnProperty("username") ||
-      !form.hasOwnProperty("email") ||
-      !form.hasOwnProperty("password")
-    )
-    {
-      setError("Please fill out the fields");
+      form.email.trim() === "" ||
+      form.password.trim() === "" ||
+      form.username.trim() === ""
+    ) {
+      setError("Please fill out everything");
       return;
     }
-      axios
-        .post("http://localhost:3000/api/auth/register", form)
-        .then((res) => {
-          console.log(res.data);
-          navigate('/login');
-        })
-        .catch((error) => {
-          const errorMessage = error.response.data.message;
-          console.log(errorMessage);
-          if (errorMessage.includes("duplicate")) {
-            setError("Email has already been taken");
-          }
-          setForm({});
-        });
+    console.log(form);
+    axios
+      .post("http://localhost:3000/api/auth/register", form)
+      .then((res) => {
+        console.log(res.data);
+        navigate("/login");
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.message;
+        console.log(errorMessage);
+        if (errorMessage.includes("duplicate")) {
+          setError("Email has already been taken");
+        }
+        setForm({ username: "", email: "", password: "" });
+      });
   };
 
   return (
@@ -112,9 +111,13 @@ export default function Register() {
                 type="text"
                 id="username"
                 autoComplete="new-password"
-                value={form.username ? form.username : ""}
+                value={form.username}
                 placeholder="Please enter username"
-                className="outline outline-gray-400 px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2"
+                className={`outline ${
+                  error && form.username === ""
+                    ? "outline-red-500 outline-2"
+                    : "outline-gray-400"
+                } px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2`}
                 onChange={handleFormChange}
               />
             </div>
@@ -128,9 +131,13 @@ export default function Register() {
                 type="email"
                 id="email"
                 autoComplete="new-password"
-                value={form.email ? form.email : ""}
+                value={form.email}
                 placeholder="Please enter email"
-                className="outline outline-gray-400 px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2"
+                className={`outline ${
+                  error && form.email === ""
+                    ? "outline-red-500 outline-2"
+                    : "outline-gray-400"
+                } px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2`}
                 onChange={handleFormChange}
               />
             </div>
@@ -144,9 +151,13 @@ export default function Register() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
-                value={form.password ? form.password : ""}
+                value={form.password}
                 placeholder="Create your password"
-                className="outline outline-gray-400 px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2"
+                className={`outline ${
+                  error && form.password === ""
+                    ? "outline-red-500 outline-2"
+                    : "outline-gray-400"
+                } px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2`}
                 onChange={handleFormChange}
               />
             </div>
