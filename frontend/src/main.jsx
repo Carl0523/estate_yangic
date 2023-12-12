@@ -15,20 +15,20 @@ import Profile from "./screens/Profile.jsx";
 import "./index.css";
 
 const router = createBrowserRouter(
-  createRoutesFromElements(<Route path="/" element={<App />}>
-
-    {/* Default child route */}
-    <Route index={true} path="/" element={<Home />}/> 
-    <Route path="/about" element={<About />}/> 
-    <Route path="/login" element={<Login />}/> 
-    <Route path="/register" element={<Register />}/> 
-    <Route path="/profile" element={<Profile />}/> 
-  </Route>)
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      {/* Default child route */}
+      <Route index={true} path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/profile" element={<Profile />} />
+    </Route>
+  )
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

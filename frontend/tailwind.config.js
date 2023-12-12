@@ -11,6 +11,13 @@ export default {
       },
       screens: {
         xs : "400px",
+      },
+      flex: {
+        '2': '2 2 0%',
+        '3': '3 3 0%', 
+      },
+      boxShadow: {
+        leftShadow: "-2px 0 5px 5px gray"
       }
     },
   },

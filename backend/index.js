@@ -23,16 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
-
-
+// Set up the connection between the routers and paths
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
 
+// Middleware function to handle the error
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const errorMessage = err.message || "Internal Server error";
@@ -43,3 +38,8 @@ app.use((err, req, res, next) => {
     })
     next();
 }) 
+
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

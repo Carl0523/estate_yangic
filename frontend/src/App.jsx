@@ -1,10 +1,15 @@
-import {Outlet} from "react-router-dom";
+import {Outlet ,useLocation} from "react-router-dom";
 import Navbar from "./components/Navbar";
 
 function App() {
+
+  const location = useLocation();
+
+  const path = location.pathname;
   return (
     <>
-      <Navbar/>
+      {/* NOTICE: Hide navbar on register screen */}
+      {path != "/register" && <Navbar/>}
       <Outlet/>
     </>
   );
