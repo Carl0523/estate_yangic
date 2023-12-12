@@ -1,15 +1,63 @@
 import { registerHouse } from "../assets";
 import { blackLogo } from "../assets";
 import { FcGoogle } from "react-icons/fc";
+import ErrorMessage from "../components/ErrorMessage";
 import Divider from "../components/Divider";
+
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const inputContainer = "flex flex-col gap-1 lg:w-4/6 w-4/5 text-base";
 
 export default function Register() {
+  const [form, setForm] = useState({});
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+
+  const handleFormChange = (event) => {
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        [event.target.id]: event.target.value,
+      };
+    });
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    // Check empty fields
+    if (
+      !form.hasOwnProperty("username") ||
+      !form.hasOwnProperty("email") ||
+      !form.hasOwnProperty("password")
+    )
+    {
+      setError("Please fill out the fields");
+      return;
+    }
+      axios
+        .post("http://localhost:3000/api/auth/register", form)
+        .then((res) => {
+          console.log(res.data);
+          navigate('/login');
+        })
+        .catch((error) => {
+          const errorMessage = error.response.data.message;
+          console.log(errorMessage);
+          if (errorMessage.includes("duplicate")) {
+            setError("Email has already been taken");
+          }
+          setForm({});
+        });
+  };
+
   return (
-    <div className="flex h-screen">
+    <div className="flex min-h-screen">
       {/* 1. The register section */}
       <div className="flex-1 p-5">
         {/* a. The logo and logo name */}
@@ -34,6 +82,9 @@ export default function Register() {
             Sign Up For a New Account
           </h1>
 
+          {/* OPTIONAL: error message --> display when error happen */}
+          {error && <ErrorMessage errorMessage={error} />}
+
           {/* b2. Sign up with google button */}
           <motion.div
             whileHover={{ scale: 1.03 }}
@@ -48,7 +99,10 @@ export default function Register() {
           <Divider text="OR" />
 
           {/* b4. The register form */}
-          <form className="flex flex-col gap-1 justify-center items-center w-full">
+          <form
+            className="flex flex-col gap-1 justify-center items-center w-full"
+            onSubmit={submitHandler}
+          >
             {/* b4-1. Username label and input */}
             <div className={inputContainer}>
               <label htmlFor="username" className="text-left font-semibold">
@@ -57,8 +111,11 @@ export default function Register() {
               <input
                 type="text"
                 id="username"
+                autoComplete="new-password"
+                value={form.username ? form.username : ""}
                 placeholder="Please enter username"
                 className="outline outline-gray-400 px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2"
+                onChange={handleFormChange}
               />
             </div>
 
@@ -70,8 +127,11 @@ export default function Register() {
               <input
                 type="email"
                 id="email"
+                autoComplete="new-password"
+                value={form.email ? form.email : ""}
                 placeholder="Please enter email"
                 className="outline outline-gray-400 px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2"
+                onChange={handleFormChange}
               />
             </div>
 
@@ -83,8 +143,11 @@ export default function Register() {
               <input
                 type="password"
                 id="password"
+                autoComplete="new-password"
+                value={form.password ? form.password : ""}
                 placeholder="Create your password"
                 className="outline outline-gray-400 px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2"
+                onChange={handleFormChange}
               />
             </div>
 

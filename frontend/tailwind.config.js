@@ -8,6 +8,8 @@ export default {
     extend: {
       colors : {
         primary: "rgb(82, 89, 212)",
+        alertFont: "rgb(193, 113, 112)",
+        alertContainer: "rgb(244, 237, 236)",
       },
       screens: {
         xs : "400px",
