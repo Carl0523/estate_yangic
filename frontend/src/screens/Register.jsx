@@ -38,19 +38,14 @@ export default function Register() {
       setError("Please fill out everything");
       return;
     }
-    console.log(form);
     axios
       .post("http://localhost:3000/api/auth/register", form)
       .then((res) => {
-        console.log(res.data);
         navigate("/login");
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
-        console.log(errorMessage);
-        if (errorMessage.includes("duplicate")) {
-          setError("Email has already been taken");
-        }
+        setError(errorMessage)
         setForm({ username: "", email: "", password: "" });
       });
   };

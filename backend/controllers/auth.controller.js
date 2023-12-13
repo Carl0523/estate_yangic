@@ -1,17 +1,16 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
+import jwt from "jsonwebtoken";
 
 const register = async (req, res, next) => {
   const { username, email, password } = req.body;
 
   try {
+    const existingUser = await User.findOne({ email });
 
-    const existingUser = await User.findOne({email});
-
-    if (existingUser)
-    {
-      console.log
+    if (existingUser) {
+      return next(errorHandler(500, "The email has already been taken"));
     }
 
     //encrypt the password that regenerate 10 rounds
@@ -29,4 +28,38 @@ const register = async (req, res, next) => {
   }
 };
 
-export { register };
+const signIn = async (req, res, next) => {
+  // Fetch the email and password from request's body from client side
+  const { email, password } = req.body;
+  try {
+    // Find the user by the email
+    const user = await User.findOne({ email });
+
+    // Check if user existed in the database, if not, return error
+    if (!user) return next(errorHandler(404, "Invalid email or password"));
+
+    // Compare the passwords to check if they're matched
+    const isPasswordMatched = bcryptjs.compareSync(password, user.password);
+
+    // If passwords does not matched return error
+    if (!isPasswordMatched)
+      return next(errorHandler(404, "Invalid email or password"));
+
+    // Generate token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY);
+
+    const {password: passCode, ...rest} = user._doc;
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { register, signIn };
