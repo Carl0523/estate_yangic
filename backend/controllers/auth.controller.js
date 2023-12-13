@@ -46,12 +46,16 @@ const signIn = async (req, res, next) => {
       return next(errorHandler(404, "Invalid email or password"));
 
     // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
+      expiresIn: '30d'
+  });
 
     const {password: passCode, ...rest} = user._doc;
 
     res
       .cookie("access_token", token, {
+        sameSite: 'none',
+        secure: true,
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })

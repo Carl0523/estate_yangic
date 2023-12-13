@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
@@ -45,15 +46,21 @@ export default function Register() {
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
-        setError(errorMessage)
+        setError(errorMessage);
         setForm({ username: "", email: "", password: "" });
       });
   };
 
   return (
-    <div className="flex min-h-screen">
+    <motion.div
+      className="flex min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
       {/* 1. The register section */}
-      <div className="flex-1 p-5">
+      <div className="flex-2 p-5">
         {/* a. The logo and logo name */}
 
         <Link to="/">
@@ -70,7 +77,7 @@ export default function Register() {
         </Link>
 
         {/* b. The register section */}
-        <div className="flex flex-col gap-2 items-center justify-center text-center lg:w-4/5 w-full mx-auto my-10">
+        <div className="flex flex-col gap-2 items-center justify-center text-center w-full mx-auto my-10">
           {/* b1. The heading text */}
           <h1 className="text-2xl mb-4 font-semibold">
             Sign Up For a New Account
@@ -179,13 +186,14 @@ export default function Register() {
         </div>
       </div>
       {/* 2. The image of neighborhood */}
-      <div className="md:flex-1 hidden md:block">
+      <div className="md:flex-3 hidden md:block">
         <img
           src={registerHouse}
-          alt="houses"
+          loading="lazy"
+          alt="house"
           className="w-full h-full object-cover"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }

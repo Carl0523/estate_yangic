@@ -1,16 +1,19 @@
-import {Outlet ,useLocation} from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
-
   const location = useLocation();
 
   const path = location.pathname;
   return (
     <>
       {/* NOTICE: Hide navbar on register screen */}
-      {path != "/register" && <Navbar/>}
-      <Outlet/>
+      {path !== "/register" && path !== "/login" && <Navbar />}
+
+      <AnimatePresence mode="wait">
+        <Outlet />
+      </AnimatePresence>
     </>
   );
 }
