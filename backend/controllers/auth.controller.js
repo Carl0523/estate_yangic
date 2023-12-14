@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import generateToken from "../utils/generateToken.js";
 
 const register = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -20,8 +21,14 @@ const register = async (req, res, next) => {
     const newUser = new User({ username, email, password: hashedPassword });
     // Save the newUser instance to the MongoDB database collection
     await newUser.save();
+
+    generateToken(res, newUser._id);
+
     // Response with a success message with status code 201
-    res.status(201).json({ message: "Create user successfully" });
+    res.status(201).json({
+      _id: newUser._id,
+      email: newUser.email,
+    });
   } catch (error) {
     // Catch any possible error
     next(error);
@@ -45,25 +52,48 @@ const signIn = async (req, res, next) => {
     if (!isPasswordMatched)
       return next(errorHandler(404, "Invalid email or password"));
 
-    // Generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY, {
-      expiresIn: '30d'
-  });
+    const { password: passCode, ...rest } = user._doc;
 
-    const {password: passCode, ...rest} = user._doc;
-
-    res
-      .cookie("access_token", token, {
-        sameSite: 'none',
-        secure: true,
-        httpOnly: true,
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-      })
-      .status(200)
-      .json(rest);
+    generateToken(res, user._id);
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }
 };
 
-export { register, signIn };
+const googleAuth = async (req, res, next) => {
+  const {name, email, photo} = req.body;
+  try {
+    const user = await User.findOne({email});
+    if (user)
+    {
+      // Generate the token
+      generateToken(res, user._id);
+      const {password: passCode, ...rest} = user._doc;
+      res.status(200).json(rest);
+    }
+    else
+    {
+      // Generate a random 16 digits passwords for user
+      const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      // Generate a username based on user's name
+      const username = name.replaceAll(' ', '').toLowerCase() + Math.random().toString(36).slice(-4);
+
+      const newUser = new User({username, email, password: hashedPassword, avatar: photo})
+
+      await newUser.save();
+
+      generateToken(res, newUser._id);
+      const { password: passCode, ...rest } = newUser._doc;
+
+      res.status(200).json(rest);
+
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+export { register, signIn, googleAuth };

@@ -1,10 +1,11 @@
 import { loginMansion } from "../assets";
 import { blackLogo } from "../assets";
-import { FcGoogle } from "react-icons/fc";
 import ErrorMessage from "../components/ErrorMessage";
 import Divider from "../components/Divider";
+import GoogleAuth from "../components/GoogleAuth";
+
 import { useDispatch, useSelector } from "react-redux";
-import { signInSuccess, logout } from "../redux/slices/userSlice";
+import { signInSuccess } from "../redux/slices/userSlice";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -23,13 +24,13 @@ export default function Login() {
   const dispatch = useDispatch(); // Dispatch the action to update the state
 
   const { userInfo } = useSelector((state) => state.user) ?? {};
-  console.log(userInfo);
+
   useEffect(()=>{
     if (userInfo)
     {
       navigate("/")
     }
-  }, {userInfo})
+  }, [userInfo])
 
   // Update the form when input changed
   const handleFormChange = (event) => {
@@ -105,14 +106,8 @@ export default function Login() {
           {error && <ErrorMessage errorMessage={error} />}
 
           {/* b2. Sign up with google button */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center lg:w-4/6 w-4/5 gap-2 px-5 py-3 border-2 border-slate-400 rounded-md cursor-pointer"
-          >
-            <FcGoogle className="text-xl" />
-            <h1 className="font-semibold text-l">Login with Google</h1>
-          </motion.div>
+          <GoogleAuth/>
+          
 
           {/* b3. Divider line */}
           <Divider text="OR" />

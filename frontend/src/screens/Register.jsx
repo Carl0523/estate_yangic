@@ -1,8 +1,8 @@
 import { registerHouse } from "../assets";
 import { blackLogo } from "../assets";
-import { FcGoogle } from "react-icons/fc";
 import ErrorMessage from "../components/ErrorMessage";
 import Divider from "../components/Divider";
+import GoogleAuth from "../components/GoogleAuth";
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -18,6 +18,7 @@ export default function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {userInfo} = useSelector(state => state.user);
   
@@ -26,7 +27,7 @@ export default function Register() {
     {
       navigate("/")
     }
-  }, {userInfo})
+  }, [userInfo])
 
   const handleFormChange = (event) => {
     setForm((prevForm) => {
@@ -52,7 +53,7 @@ export default function Register() {
     axios
       .post("http://localhost:3000/api/auth/register", form)
       .then((res) => {
-        useDispatch(signInSuccess(res.data))
+        dispatch(signInSuccess(res.data))
         navigate("/");
       })
       .catch((error) => {
@@ -98,14 +99,7 @@ export default function Register() {
           {error && <ErrorMessage errorMessage={error} />}
 
           {/* b2. Sign up with google button */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center lg:w-4/6 w-4/5 gap-2 px-5 py-3 border-2 border-slate-400 rounded-md cursor-pointer"
-          >
-            <FcGoogle className="text-xl" />
-            <h1 className="font-semibold text-l">Sign up with Google</h1>
-          </motion.div>
+          <GoogleAuth/>
 
           {/* b3. Divider line */}
           <Divider text="OR" />

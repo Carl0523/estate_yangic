@@ -2,8 +2,18 @@ import { logo } from "../assets";
 import { FaSearch } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/slices/userSlice";
 
 export default function Navbar() {
+  const { userInfo } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  }
+
   return (
     <header className="flex justify-between items-center xs:p-6 p-3 bg-white z-10">
       {/* 1. Logo and the Logo name */}
@@ -18,7 +28,7 @@ export default function Navbar() {
 
       {/* 2. The middle search bar */}
       <form className="flex items-center p-3 bg-gray-100 rounded-md">
-        <FaLocationDot className="mr-2 xs:text-base text-xs"/>
+        <FaLocationDot className="mr-2 xs:text-base text-xs" />
         <input
           type="text"
           placeholder="Enter an address or ZIP code"
@@ -31,16 +41,24 @@ export default function Navbar() {
 
       {/* 3. The navigation links */}
       <ul className="flex items-center gap-5 font-semibold">
-        <Link to="/login">
-          <li className="hidden md:flex sm:text-base text-xs hover:scale-105">
-            Login
+        {userInfo ? (
+          <li className="hidden md:flex sm:text-base text-xs hover:scale-105 cursor-pointer" onClick={logoutHandler}>
+            Logout
           </li>
-        </Link>
-        <Link to="/register">
-          <li className="px-4 py-2 bg-primary text-white rounded-md xs:text-base text-xs hover:scale-105">
-            Register
-          </li>
-        </Link>
+        ) : (
+          <>
+            <Link to="/login">
+              <li className="hidden md:flex sm:text-base text-xs hover:scale-105">
+                Login
+              </li>
+            </Link>
+            <Link to="/register">
+              <li className="px-4 py-2 bg-primary text-white rounded-md xs:text-base text-xs hover:scale-105">
+                Register
+              </li>
+            </Link>
+          </>
+        )}
       </ul>
     </header>
   );
