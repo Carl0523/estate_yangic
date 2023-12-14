@@ -3,7 +3,8 @@ import { blackLogo } from "../assets";
 import { FcGoogle } from "react-icons/fc";
 import ErrorMessage from "../components/ErrorMessage";
 import Divider from "../components/Divider";
-
+import { useDispatch, useSelector } from "react-redux";
+import { signInSuccess, signInFailure } from "../redux/slices/userSlice";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -13,10 +14,18 @@ import { useNavigate } from "react-router-dom";
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
+  // the state that store the email and password
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  // The error message if any
+  const {error} = useSelector((state) => state.user)
+
+  const navigate = useNavigate(); // Navigate function
+  const dispatch = useDispatch(); // Dispatch the action to update the state
+
+
+  // Update the form when input changed
   const handleFormChange = (event) => {
     setForm((prevForm) => {
       return {
@@ -26,22 +35,24 @@ export default function Login() {
     });
   };
 
+  // When user submit, it trigger this function
   const submitHandler = async (event) => {
     event.preventDefault();
 
     // Check empty fields
     if (form.email.trim() === "" || form.password.trim() === "") {
-      setError("Please fill out everything");
+      dispatch(signInFailure("Please fill out everything"));
       return;
     }
     axios
       .post("http://localhost:3000/api/auth/signin", form, {withCredentials: true})
       .then((res) => {
+        dispatch(signInSuccess(res.data));
         navigate("/");
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
-        setError(errorMessage);
+        dispatch(signInFailure(errorMessage));
         setForm({ email: "", password: "" });
       });
   };

@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
@@ -54,10 +54,10 @@ export default function Register() {
   return (
     <motion.div
       className="flex min-h-screen"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0}}
+      animate={{ opacity: 1}}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}
+      transition={{duration: 1}}
     >
       {/* 1. The register section */}
       <div className="flex-2 p-5">
