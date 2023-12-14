@@ -4,11 +4,11 @@ import { FcGoogle } from "react-icons/fc";
 import ErrorMessage from "../components/ErrorMessage";
 import Divider from "../components/Divider";
 import { useDispatch, useSelector } from "react-redux";
-import { signInSuccess, signInFailure } from "../redux/slices/userSlice";
+import { signInSuccess, logout } from "../redux/slices/userSlice";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
@@ -17,13 +17,19 @@ export default function Login() {
 
   // the state that store the email and password
   const [form, setForm] = useState({ email: "", password: "" });
-
-  // The error message if any
-  const {error} = useSelector((state) => state.user)
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate(); // Navigate function
   const dispatch = useDispatch(); // Dispatch the action to update the state
 
+  const { userInfo } = useSelector((state) => state.user) ?? {};
+
+  useEffect(()=>{
+    if (userInfo)
+    {
+      navigate("/")
+    }
+  }, userInfo)
 
   // Update the form when input changed
   const handleFormChange = (event) => {
@@ -41,7 +47,7 @@ export default function Login() {
 
     // Check empty fields
     if (form.email.trim() === "" || form.password.trim() === "") {
-      dispatch(signInFailure("Please fill out everything"));
+      setError("Please fill out everything");
       return;
     }
     axios
@@ -52,7 +58,7 @@ export default function Login() {
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
-        dispatch(signInFailure(errorMessage));
+        setError(errorMessage);
         setForm({ email: "", password: "" });
       });
   };

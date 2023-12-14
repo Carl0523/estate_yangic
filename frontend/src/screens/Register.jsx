@@ -9,7 +9,8 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { signInSuccess } from "../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
@@ -17,6 +18,7 @@ export default function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  
 
   const handleFormChange = (event) => {
     setForm((prevForm) => {
@@ -42,7 +44,8 @@ export default function Register() {
     axios
       .post("http://localhost:3000/api/auth/register", form)
       .then((res) => {
-        navigate("/login");
+        useDispatch(signInSuccess(res.data))
+        navigate("/");
       })
       .catch((error) => {
         const errorMessage = error.response.data.message;
