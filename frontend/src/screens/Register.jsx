@@ -7,10 +7,10 @@ import Divider from "../components/Divider";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInSuccess } from "../redux/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
@@ -18,7 +18,15 @@ export default function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const {userInfo} = useSelector(state => state.user);
   
+  useEffect(() => {
+    if(userInfo)
+    {
+      navigate("/")
+    }
+  }, {userInfo})
 
   const handleFormChange = (event) => {
     setForm((prevForm) => {

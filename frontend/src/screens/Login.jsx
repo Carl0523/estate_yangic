@@ -23,13 +23,13 @@ export default function Login() {
   const dispatch = useDispatch(); // Dispatch the action to update the state
 
   const { userInfo } = useSelector((state) => state.user) ?? {};
-
+  console.log(userInfo);
   useEffect(()=>{
     if (userInfo)
     {
       navigate("/")
     }
-  }, userInfo)
+  }, {userInfo})
 
   // Update the form when input changed
   const handleFormChange = (event) => {
