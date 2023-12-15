@@ -132,7 +132,7 @@ export default function Login() {
                   error && form.email === ""
                     ? "outline-red-500 outline-2"
                     : "outline-gray-400"
-                } px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2`}
+                } px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
                 onChange={handleFormChange}
               />
             </div>
@@ -152,7 +152,7 @@ export default function Login() {
                   error && form.password === ""
                     ? "outline-red-500 outline-2"
                     : "outline-gray-400"
-                } px-5 py-3 rounded-sm focus:outline-blue-500 focus:outline-2`}
+                } px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
                 onChange={handleFormChange}
               />
             </div>
@@ -161,7 +161,7 @@ export default function Login() {
             <motion.button
               whileHover={{ scale: 1.03, opacity: 0.9 }}
               whileTap={{ scale: 0.95 }}
-              className="lg:w-4/6 w-4/5 bg-black text-white px-5 py-3 mt-2 rounded-md"
+              className="lg:w-4/6 w-4/5 bg-black text-white px-5 py-3 mt-2 rounded-buttonRadius"
             >
               Sign in
             </motion.button>

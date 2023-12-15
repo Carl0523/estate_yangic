@@ -34,7 +34,7 @@ export default function Navbar() {
             alt="logo"
             className="object-contain xs:w-[4rem] w-[2.5rem]"
           />
-          <h1 className="text-xl text-primary italic font-bold tracking-tight lg:flex hidden">
+          <h1 className="text-xl italic font-bold tracking-tight lg:flex hidden">
             HomeYonder
           </h1>
         </div>
@@ -50,7 +50,7 @@ export default function Navbar() {
             md:w-[16rem] md:focus:w-[24rem] sm:w-[12rem] sm:focus:w-[17rem] 
             xs:focus:w-[13rem] w-[10rem] xs:text-base text-xs duration-200"
         />
-        <FaSearch className="text-primary cursor-pointer xs:text-base text-xs" />
+        <FaSearch className="cursor-pointer xs:text-base text-xs" />
       </form>
 
       {/* 3. The navigation links */}
@@ -72,14 +72,14 @@ export default function Navbar() {
                   <IconWithText
                     text="Profile"
                     icon={<RxAvatar className="text-2xl" />}
-                    customCss="hover:text-gray-600"
+                    customCss="hover:text-gray-600 hover:scale-95"
                   />
                 </Link>
                 <Link onClick={logoutHandler} to="/">
                   <IconWithText
                     text="Logout"
                     icon={<MdOutlineLogout className="text-2xl" />}
-                    customCss="hover:text-gray-600"
+                    customCss="hover:text-gray-600 hover:scale-95"
                   />
                 </Link>
               </div>
