@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './logo2.svg';
 import blackLogo from './logo2.svg';
 import registerHouse from './register_house.jpeg';
 import registerMansion from './register_mansion.jpg'
