@@ -24,11 +24,10 @@ const register = async (req, res, next) => {
 
     generateToken(res, newUser._id);
 
+    const {password: passCode, ...rest} = newUser._doc;
+
     // Response with a success message with status code 201
-    res.status(201).json({
-      _id: newUser._id,
-      email: newUser.email,
-    });
+    res.status(201).json(rest);
   } catch (error) {
     // Catch any possible error
     next(error);
