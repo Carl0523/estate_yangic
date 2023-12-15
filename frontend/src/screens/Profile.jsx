@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
-const inputContainer = `flex flex-col gap-1 lg:w-2/3 w-4/5 text-base`;
+const inputContainer = `flex flex-col gap-1 lg:w-3/4 w-4/5 text-base`;
 
 export default function Profile() {
   const { userInfo } = useSelector((state) => state.user);
