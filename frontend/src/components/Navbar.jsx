@@ -1,26 +1,41 @@
 import { logo } from "../assets";
 import { FaSearch } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { RxAvatar } from "react-icons/rx";
+import { MdOutlineLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/userSlice";
+import IconWithText from "./IconWithText";
 
 export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
+
+  const avatarClickHandler = () => {
+    setIsMenuOpen((prevState) => {
+      return !prevState;
+    });
+  };
+
 
   const logoutHandler = () => {
     dispatch(logout());
-  }
+  };
 
   return (
     <header className="flex justify-between items-center xs:p-6 p-3 bg-white z-10">
       {/* 1. Logo and the Logo name */}
       <Link to="/">
         <div className="flex items-center gap-1 mr-1">
-          <img src={logo} alt="logo" className="object-contain w-[4.5rem]" />
-          <h1 className="text-2xl text-primary italic font-bold tracking-tight lg:flex hidden">
+          <img
+            src={logo}
+            alt="logo"
+            className="object-contain xs:w-[4rem] w-[2.5rem]"
+          />
+          <h1 className="text-xl text-primary italic font-bold tracking-tight lg:flex hidden">
             HomeYonder
           </h1>
         </div>
@@ -42,9 +57,33 @@ export default function Navbar() {
       {/* 3. The navigation links */}
       <ul className="flex items-center gap-5 font-semibold">
         {userInfo ? (
-          <li className="hidden md:flex sm:text-base text-xs hover:scale-105 cursor-pointer" onClick={logoutHandler}>
-            Logout
-          </li>
+          <>
+            <img
+              src={userInfo.avatar}
+              alt="avatar"
+              referrerPolicy="no-referrer"
+              className="rounded-full border object-cover h-10 w-10 cursor-pointer hover:shadow-md"
+              onClick={avatarClickHandler}
+            />
+            {isMenuOpen && (
+              <div className="flex flex-col gap-2 p-6 absolute top-16 right-0 mx-4 my-3 min-w-[140px] z-10 rounded-2xl border shadow-lg">
+                <Link to="/profile" onClick={() => setIsMenuOpen(false)}>
+                  <IconWithText
+                    text="Profile"
+                    icon={<RxAvatar className="text-2xl" />}
+                    customCss="hover:text-gray-600"
+                  />
+                </Link>
+                <Link onClick={logoutHandler} to='/'>
+                  <IconWithText
+                    text="Logout"
+                    icon={<MdOutlineLogout className="text-2xl" />}
+                    customCss="hover:text-gray-600"
+                  />
+                </Link>
+              </div>
+            )}
+          </>
         ) : (
           <>
             <Link to="/login">
