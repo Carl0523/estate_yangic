@@ -20,7 +20,6 @@ export default function Navbar() {
     });
   };
 
-
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -62,7 +61,9 @@ export default function Navbar() {
               src={userInfo.avatar}
               alt="avatar"
               referrerPolicy="no-referrer"
-              className="rounded-full border object-cover h-10 w-10 cursor-pointer hover:shadow-md"
+              className={`rounded-full border object-cover h-10 w-10 cursor-pointer hover:shadow-md ${
+                isMenuOpen && "shadow-md shadow-gray-400"
+              }`}
               onClick={avatarClickHandler}
             />
             {isMenuOpen && (
@@ -74,7 +75,7 @@ export default function Navbar() {
                     customCss="hover:text-gray-600"
                   />
                 </Link>
-                <Link onClick={logoutHandler} to='/'>
+                <Link onClick={logoutHandler} to="/">
                   <IconWithText
                     text="Logout"
                     icon={<MdOutlineLogout className="text-2xl" />}
