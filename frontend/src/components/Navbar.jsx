@@ -3,7 +3,9 @@ import { FaSearch } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { RxAvatar } from "react-icons/rx";
 import { MdOutlineLogout } from "react-icons/md";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/userSlice";
@@ -21,6 +23,15 @@ export default function Navbar() {
   };
 
   const logoutHandler = () => {
+    axios
+      .post(
+        "http://localhost:3000/api/auth/logout",
+        {},
+        { withCredentials: true }
+      )
+      .catch((error) => {
+        console.log(error);
+      });
     dispatch(logout());
   };
 
@@ -67,7 +78,13 @@ export default function Navbar() {
               onClick={avatarClickHandler}
             />
             {isMenuOpen && (
-              <div className="flex flex-col gap-2 p-6 absolute top-16 right-0 mx-4 my-3 min-w-[140px] z-10 rounded-2xl border shadow-lg">
+              <motion.div
+                initial={{ translateY: -20, opacity: 0 }}
+                animate={{ translateY: 0, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col gap-2 p-6 absolute top-16 right-0 mx-4 my-3 min-w-[140px] z-10 rounded-2xl border shadow-lg"
+              >
                 <Link to="/profile" onClick={() => setIsMenuOpen(false)}>
                   <IconWithText
                     text="Profile"
@@ -82,7 +99,7 @@ export default function Navbar() {
                     customCss="hover:text-gray-600 hover:scale-95"
                   />
                 </Link>
-              </div>
+              </motion.div>
             )}
           </>
         ) : (
