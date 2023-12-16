@@ -105,8 +105,8 @@ export default function Profile() {
   {/* --------------------------------- RETURN STATEMENT ---------------------------------*/}
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, translateY: -200  }}
+      animate={{ opacity: 1, translateY: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       className="flex flex-col mx-auto my-3 p-3"
