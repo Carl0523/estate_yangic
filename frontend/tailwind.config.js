@@ -7,6 +7,7 @@ export default {
         primary: "rgb(82, 89, 212)",
         alertFont: "rgb(193, 113, 112)",
         alertContainer: "rgb(244, 237, 236)",
+        overlay: "rgba(0, 0, 0, 0.6)"
       },
       screens: {
         xs: "400px",
@@ -17,6 +18,7 @@ export default {
       },
       boxShadow: {
         leftShadow: "-2px 0 5px 5px gray",
+        card: "0 0 18px rgba(0, 0, 0, 0.7)"
       },
       borderRadius: {
         inputRadius: "0.125rem",
