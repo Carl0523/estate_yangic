@@ -3,7 +3,7 @@ import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 
 /**
- *
+ * Update the user's info
  * @param req The request from the client side and verifyToken function
  * @param res The response sending back to the client side
  * @param next mainly used for calling the middleware error handler
@@ -48,4 +48,26 @@ const updateUser = async (req, res, next) => {
   }
 };
 
-export { updateUser };
+/**
+ * Delete the user from the database
+ * @param req The request from the client side and verifyToken function
+ * @param res The response sending back to the client side
+ * @param next mainly used for calling the middleware error handler
+ */
+const deleteUser = async (req, res, next) => {
+  if (req.userId !== req.params.id) return next(errorHandler(401, "Unmatched token and user account"));
+
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.cookie("access_token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+    res.status(200).json({message: "The account is deleted"});
+  } catch (error)
+  {
+    next(error)
+  }
+}
+
+export { updateUser, deleteUser };
