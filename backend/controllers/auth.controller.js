@@ -24,7 +24,7 @@ const register = async (req, res, next) => {
 
     generateToken(res, newUser._id);
 
-    const {password: passCode, ...rest} = newUser._doc;
+    const { password: passCode, ...rest } = newUser._doc;
 
     // Response with a success message with status code 201
     res.status(201).json(rest);
@@ -61,26 +61,32 @@ const signIn = async (req, res, next) => {
 };
 
 const googleAuth = async (req, res, next) => {
-  const {name, email, photo} = req.body;
+  const { name, email, photo } = req.body;
   try {
-    const user = await User.findOne({email});
-    if (user)
-    {
+    const user = await User.findOne({ email });
+    if (user) {
       // Generate the token
       generateToken(res, user._id);
-      const {password: passCode, ...rest} = user._doc;
+      const { password: passCode, ...rest } = user._doc;
       res.status(200).json(rest);
-    }
-    else
-    {
+    } else {
       // Generate a random 16 digits passwords for user
-      const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
 
       // Generate a username based on user's name
-      const username = name.replaceAll(' ', '').toLowerCase() + Math.random().toString(36).slice(-4);
+      const username =
+        name.replaceAll(" ", "").toLowerCase() +
+        Math.random().toString(36).slice(-4);
 
-      const newUser = new User({username, email, password: hashedPassword, avatar: photo})
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        avatar: photo,
+      });
 
       await newUser.save();
 
@@ -88,11 +94,18 @@ const googleAuth = async (req, res, next) => {
       const { password: passCode, ...rest } = newUser._doc;
 
       res.status(200).json(rest);
-
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
-export { register, signIn, googleAuth };
+const logout = (req, res, next) => {
+  res.cookie("access_token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "User logout" });
+};
+
+export { register, signIn, googleAuth, logout };
