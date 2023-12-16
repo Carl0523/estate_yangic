@@ -1,5 +1,5 @@
 import { logo } from "../assets";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaHome } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { RxAvatar } from "react-icons/rx";
 import { MdOutlineLogout } from "react-icons/md";
@@ -89,6 +89,13 @@ export default function Navbar() {
                   <IconWithText
                     text="Profile"
                     icon={<RxAvatar className="text-2xl" />}
+                    customCss="hover:text-gray-600 hover:scale-95"
+                  />
+                </Link>
+                <Link to="/your-homes" onClick={() => setIsMenuOpen(false)}>
+                  <IconWithText
+                    text="Your Homes"
+                    icon={<FaHome className="text-2xl" />}
                     customCss="hover:text-gray-600 hover:scale-95"
                   />
                 </Link>
