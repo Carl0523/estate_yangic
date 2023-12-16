@@ -20,33 +20,36 @@ const port = process.env.PORT;
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+    exposedHeaders: ["Content-Type"],
+  })
+);
 
 app.use(cookieParser());
 
 // Middleware functions for parsing
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
+app.use(express.urlencoded({ extended: true }));
 
 // Set up the connection between the routers and paths
-app.use('/api/user', userRouter);
-app.use('/api/auth', authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
 
 // Middleware function to handle the error
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    const errorMessage = err.message || "Internal Server error";
-    return res.status(statusCode).json({
-        success : false,
-        statusCode,
-        message: errorMessage
-    })
-}) 
-
+  const statusCode = err.statusCode || 500;
+  const errorMessage = err.message || "Internal Server error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message: errorMessage,
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
