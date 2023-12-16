@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import {errorHandler} from './error.js';
-import User from '../models/user.model.js';
 
 /**
  * Verify if user is authenticate by checking the token
@@ -11,7 +10,6 @@ import User from '../models/user.model.js';
 export const verifyToken = (req, res, next) => {
     {/* 1. Get the token from cookie */}
     const token = req.cookies.access_token;
-
     {/* 2. Check if token exist */}
     if (!token) return next(errorHandler(401, "Unauthorized"));
 
