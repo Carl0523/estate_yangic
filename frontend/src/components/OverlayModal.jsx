@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
-
 export default function OverlayModal({
   isModalOpen,
   img,
   onCloseModal,
+  modalButtonHandler,
   headerText,
   messageText = null,
 }) {
@@ -37,6 +37,7 @@ export default function OverlayModal({
           <motion.button
             whileHover={{ scale: 1.03, opacity: 0.9 }}
             whileTap={{ scale: 0.95 }}
+            onClick={modalButtonHandler}
             className="bg-red-500 text-white rounded-2xl py-2 px-4"
           >
             Delete

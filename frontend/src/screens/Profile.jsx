@@ -8,10 +8,11 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { app } from "../firebase";
 
 import ErrorMessage from "../components/ErrorMessage";
-import { setCredential } from "../redux/slices/userSlice";
+import { setCredential, logout } from "../redux/slices/userSlice";
 import OverlayModal from "../components/OverlayModal";
 import { trashCan } from "../assets/index";
 
@@ -29,6 +30,7 @@ export default function Profile() {
 
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (file) {
@@ -41,6 +43,20 @@ export default function Profile() {
    */
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleDeleteAccount = () => {
+    axios
+      .delete(`http://localhost:3000/api/user/delete/${userInfo._id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(logout());
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+      });
   };
 
   /**
@@ -93,8 +109,6 @@ export default function Profile() {
    */
   const submitHandler = (e) => {
     e.preventDefault();
-
-   
 
     if (form.password && form.password != form.confirmPassword) {
       setError("Please Make Sure the Password Matched");
@@ -189,7 +203,7 @@ export default function Profile() {
         {error && (
           <ErrorMessage
             errorMessage={error}
-            customCss="self-center lg:w-1/2 w-1/2"
+            customCss="self-center lg:w-1/2 w-3/5"
           />
         )}
 
@@ -296,6 +310,7 @@ export default function Profile() {
         isModalOpen={isModalOpen}
         img={trashCan}
         onCloseModal={handleCloseModal}
+        modalButtonHandler={handleDeleteAccount}
         headerText="Are you sure you want to leave us?"
       />
     </>
