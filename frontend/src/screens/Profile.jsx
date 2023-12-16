@@ -93,7 +93,10 @@ export default function Profile() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data);
+        // Clear the password and confirm Password after change made
+        setForm({});
+
+        setError(null);
         dispatch(setCredential(res.data));
       })
       .catch((error) => {
@@ -102,10 +105,12 @@ export default function Profile() {
       });
   };
 
-  {/* --------------------------------- RETURN STATEMENT ---------------------------------*/}
+  {
+    /* --------------------------------- RETURN STATEMENT ---------------------------------*/
+  }
   return (
     <motion.div
-      initial={{ opacity: 0, translateY: -200  }}
+      initial={{ opacity: 0, translateY: -200 }}
       animate={{ opacity: 1, translateY: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
@@ -163,8 +168,8 @@ export default function Profile() {
           <p className="text-sm text-gray-500">{userInfo.email}</p>
         </div>
       </div>
-      
-       {/* Displaying error */}
+
+      {/* Displaying error */}
       {error && (
         <ErrorMessage
           errorMessage={error}
@@ -215,6 +220,7 @@ export default function Profile() {
           <input
             type="password"
             id="password"
+            value={form.password ? form.password : ""}
             autoComplete="new-password"
             onChange={inputChangeHandler}
             className={`outline outline-gray-500 px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
@@ -229,6 +235,7 @@ export default function Profile() {
           <input
             type="password"
             id="confirmPassword"
+            value={form.confirmPassword ? form.confirmPassword : ""}
             disabled={!form.password || form.password == "" ? true : false}
             autoComplete="new-password"
             onChange={inputChangeHandler}
@@ -236,11 +243,22 @@ export default function Profile() {
           />
         </div>
 
-        {/* 2E. The update button */}
+        {/**
+         * 2E. The update button
+         * disabled when form is unchanged
+         * active the hover and tap effect only when button is able
+         */}
         <motion.button
-          whileHover={{ scale: 1.03, opacity: 0.9 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-11/12 col-span-2 py-3 rounded-buttonRadius bg-black text-white"
+          whileHover={
+            Object.keys(form).length === 0
+              ? undefined
+              : { scale: 1.03, opacity: 0.9 }
+          }
+          whileTap={
+            Object.keys(form).length === 0 ? undefined : { scale: 0.95 }
+          }
+          className="w-3/4 col-span-2 py-3 rounded-buttonRadius bg-black text-white disabled:bg-gray-400"
+          disabled={Object.keys(form).length === 0}
         >
           Update
         </motion.button>
