@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
+import axios from "axios";
 import {
   getDownloadURL,
   getStorage,
@@ -8,6 +9,8 @@ import {
 } from "firebase/storage";
 import { useRef, useState, useEffect } from "react";
 import { app } from "../firebase";
+import ErrorMessage from "../components/ErrorMessage";
+import { setCredential } from "../redux/slices/userSlice";
 
 const inputContainer = `flex flex-col gap-1 lg:w-3/4 w-4/5 text-base`;
 
@@ -15,11 +18,13 @@ export default function Profile() {
   const fileRef = useRef(null);
 
   const [form, setForm] = useState({});
+  const [error, setError] = useState(null);
   const [file, setFile] = useState(undefined);
   const [isFileUploadSuccess, setIsFileUploadSuccess] = useState(true);
   const [uploadProcess, setUploadProcess] = useState(0);
 
   const { userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
@@ -27,6 +32,10 @@ export default function Profile() {
     }
   }, [file]);
 
+  /**
+   * Handle the file upload to the firebase storage and extract some related data
+   * @param file the File object being uploaded
+   */
   const handleFileUpload = (file) => {
     // 1. Connect the storage based on the app (basically containing account info to identify the storage)
     const storage = getStorage(app);
@@ -59,8 +68,49 @@ export default function Profile() {
     );
   };
 
+  /**
+   * When one of the input changed, update the form accordingly
+   * @param e the event listener object
+   */
+  const inputChangeHandler = (e) => {
+    setForm({ ...form, [e.target.id]: e.target.value });
+  };
+
+  /**
+   * Send the form data to the server side for user info update
+   * @param e event listener object for form
+   */
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (form.password && form.password != form.confirmPassword) {
+      setError("Please Make Sure the Password Matched");
+      return;
+    }
+    const { confirmPassword, ...rest } = form;
+    axios
+      .post(`http://localhost:3000/api/user/update/${userInfo._id}`, rest, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch(setCredential(res.data));
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+        console.log(error.response.data.message);
+      });
+  };
+
+  {/* --------------------------------- RETURN STATEMENT ---------------------------------*/}
   return (
-    <div className="flex flex-col mx-auto my-3 p-3">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col mx-auto my-3 p-3"
+    >
       {/* This file accessor is connected with the avatar using useRef */}
       <input
         type="file"
@@ -74,9 +124,10 @@ export default function Profile() {
 
       {/* 1. The avatar on the left, username and email on the right */}
       <div className="flex flex-row items-center gap-2 self-center">
+        {/* 1A. The avatar and related image upload UI*/}
         <div className="h-20 w-20 border rounded-full cursor-pointer hover:shadow-md relative">
           <img
-            src={form.avatar || userInfo.avatar}
+            src={form.avatar ? form.avatar : userInfo.avatar}
             onClick={() => {
               fileRef.current.click();
             }}
@@ -86,9 +137,14 @@ export default function Profile() {
               "blur-sm"
             }`}
           />
+
+          {/**
+           * 1. Display the upload process in the middle of avatar when uploading avatar
+           * 2. Show error when there's one
+           */}
           {!isFileUploadSuccess ? (
             <span className="absolute text-red-500 z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              Error 
+              Error
             </span>
           ) : uploadProcess > 0 && uploadProcess < 100 ? (
             <span className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -99,8 +155,6 @@ export default function Profile() {
           )}
         </div>
 
-        {/* 1A. The avatar */}
-
         {/* 1B. The username and email */}
         <div className="flex flex-col gap-2">
           {/* a. The username */}
@@ -109,9 +163,21 @@ export default function Profile() {
           <p className="text-sm text-gray-500">{userInfo.email}</p>
         </div>
       </div>
+      
+       {/* Displaying error */}
+      {error && (
+        <ErrorMessage
+          errorMessage={error}
+          customCss="self-center lg:w-1/2 w-1/2"
+        />
+      )}
 
       {/* 2. The form */}
-      <form className="sm:grid grid-rows-3 grid-cols-2 flex flex-col w-4/6 place-items-center gap-x-3 sm:gap-y-10 gap-y-5 mt-10 mx-auto">
+      <form
+        onSubmit={submitHandler}
+        className="sm:grid grid-rows-3 grid-cols-2 flex flex-col w-4/6 place-items-center gap-x-3 sm:gap-y-10 gap-y-5 mt-10 mx-auto"
+      >
+        {/* 2A. The username label and input */}
         <div className={inputContainer}>
           <label htmlFor="username" className="text-left font-semibold">
             Username
@@ -119,10 +185,14 @@ export default function Profile() {
           <input
             type="text"
             id="username"
+            defaultValue={userInfo.username}
             autoComplete="new-password"
+            onChange={inputChangeHandler}
             className={`outline outline-gray-500 px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
           />
         </div>
+
+        {/* 2B. The email label and input */}
         <div className={inputContainer}>
           <label htmlFor="email" className="text-left font-semibold">
             Email
@@ -130,10 +200,14 @@ export default function Profile() {
           <input
             type="email"
             id="email"
+            defaultValue={userInfo.email}
             autoComplete="new-password"
+            onChange={inputChangeHandler}
             className={`outline outline-gray-500 px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
           />
         </div>
+
+        {/* 2C. The password label and input */}
         <div className={inputContainer}>
           <label htmlFor="password" className="text-left font-semibold">
             Password
@@ -142,9 +216,12 @@ export default function Profile() {
             type="password"
             id="password"
             autoComplete="new-password"
+            onChange={inputChangeHandler}
             className={`outline outline-gray-500 px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
           />
         </div>
+
+        {/* 2D. The confirmed password label and input */}
         <div className={inputContainer}>
           <label htmlFor="confirmPassword" className="text-left font-semibold">
             Confirm Password
@@ -152,10 +229,14 @@ export default function Profile() {
           <input
             type="password"
             id="confirmPassword"
+            disabled={!form.password || form.password == "" ? true : false}
             autoComplete="new-password"
-            className={`outline outline-gray-500 px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2`}
+            onChange={inputChangeHandler}
+            className={`outline outline-gray-500 px-5 py-3 rounded-inputRadius focus:outline-blue-500 focus:outline-2 disabled:bg-gray-300`}
           />
         </div>
+
+        {/* 2E. The update button */}
         <motion.button
           whileHover={{ scale: 1.03, opacity: 0.9 }}
           whileTap={{ scale: 0.95 }}
@@ -164,6 +245,6 @@ export default function Profile() {
           Update
         </motion.button>
       </form>
-    </div>
+    </motion.div>
   );
 }
