@@ -5,7 +5,7 @@ import Divider from "../components/Divider";
 import GoogleAuth from "../components/GoogleAuth";
 
 import { useDispatch, useSelector } from "react-redux";
-import { signInSuccess } from "../redux/slices/userSlice";
+import { setCredential } from "../redux/slices/userSlice";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -54,7 +54,7 @@ export default function Login() {
     axios
       .post("http://localhost:3000/api/auth/signin", form, {withCredentials: true})
       .then((res) => {
-        dispatch(signInSuccess(res.data));
+        dispatch(setCredential(res.data));
         navigate("/");
       })
       .catch((error) => {

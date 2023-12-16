@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInSuccess } from "../redux/slices/userSlice";
+import { setCredential } from "../redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
@@ -51,9 +51,9 @@ export default function Register() {
       return;
     }
     axios
-      .post("http://localhost:3000/api/auth/register", form)
+      .post("http://localhost:3000/api/auth/register", form, {withCredentials: true})
       .then((res) => {
-        dispatch(signInSuccess(res.data))
+        dispatch(setCredential(res.data))
         navigate("/");
       })
       .catch((error) => {

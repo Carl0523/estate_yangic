@@ -2,7 +2,7 @@ import { FcGoogle } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
-import { signInSuccess } from "../redux/slices/userSlice";
+import { setCredential } from "../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -27,7 +27,7 @@ export default function GoogleAuth() {
         email: result.user.email,
         photo: result.user.photoURL,
       }, {withCredentials: true}).then((res) => {
-        dispatch(signInSuccess(res.data))
+        dispatch(setCredential(res.data))
         navigate('/');
       }).catch(error => {
         console.log(error)
