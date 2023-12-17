@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
+import homesRouter from './routes/homes.route.js';
 
 dotenv.config(); // Load .env file content into process.env
 
@@ -39,6 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 // Set up the connection between the routers and paths
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/homes", homesRouter);
 
 // Middleware function to handle the error
 app.use((err, req, res, next) => {
