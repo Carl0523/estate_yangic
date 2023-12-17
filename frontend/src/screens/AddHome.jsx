@@ -1,7 +1,90 @@
-import React from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase";
+import { emptyList } from "../assets";
+import CustomButton from "../components/CustomButton";
+import ImageItem from "../components/ImageItem";
 
 export default function AddHome() {
+  const [imgFiles, setImgFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [form, setForm] = useState({
+    imageUrls: [],
+  });
+
+  /**
+   * Upload the images to firebase storage and store the downloaded URLs into form
+   */
+  const handleImagesUpload = () => {
+    if (imgFiles.length > 0 && imgFiles.length < 11) {
+      const promises = [];
+
+      setIsUploading(true);
+      for (let i = 0; i < imgFiles.length; i++) {
+        promises.push(storeImg(imgFiles[i]));
+      }
+      // Execute only after all image resolved
+      Promise.all(promises).then((urls) => {
+        setForm((prevForm) => {
+          return { ...prevForm, imageUrls: prevForm.imageUrls.concat(urls) };
+        });
+        setIsUploading(false);
+      });
+    }
+  };
+
+  /**
+   * Remove the specific image from the imageUrls
+   * @param index the index of item to be deleted
+   */
+  const handleDeleteImage = (index) => {
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        imageUrls: prevForm.imageUrls.filter((_, i) => i !== index),
+      };
+    });
+  };
+
+  /**
+   * Upload the process and return the img URL
+   * @param image the image file
+   * @returns the img URL
+   */
+  const storeImg = async (image) => {
+    return new Promise((resolve, reject) => {
+      // 1. Find the storage through app (store account info to identify)
+      const storage = getStorage(app);
+
+      // 2. The name for the upload file
+      const fileName = new Date().getTime() + image.name;
+
+      // 3. The storage reference
+      const storageRef = ref(storage, fileName);
+
+      // 4. Start the upload process
+      const uploadProcess = uploadBytesResumable(storageRef, image);
+
+      // 5. Track the upload process
+      uploadProcess.on(
+        "state_changed",
+        null,
+        (error) => reject(error),
+        () => {
+          getDownloadURL(uploadProcess.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
   return (
     <motion.main
       initial={{ opacity: 0, translateY: "-200" }}
@@ -91,7 +174,7 @@ export default function AddHome() {
             <input
               type="number"
               id="numOfBedrooms"
-              min={1}
+              min="1"
               className="lg:w-1/3 w-1/2 outline outline-gray-500 focus:outline-blue-500 focus:outline-2 p-3 rounded-inputRadius"
               required
             />
@@ -102,7 +185,7 @@ export default function AddHome() {
             <input
               type="number"
               id="numOfBathrooms"
-              min={1}
+              min="1"
               className="lg:w-1/3 w-1/2 outline outline-gray-500 focus:outline-blue-500 focus:outline-2 p-3 rounded-inputRadius"
               required
             />
@@ -113,7 +196,7 @@ export default function AddHome() {
             <input
               type="number"
               id="price"
-              min={1}
+              min="1"
               className="lg:w-1/3 w-1/2 outline outline-gray-500 focus:outline-blue-500 focus:outline-2 p-3 rounded-inputRadius"
               required
             />
@@ -129,26 +212,43 @@ export default function AddHome() {
 
         {/* 2f. The image upload session  */}
         <div className="md:w-2/3 w-full flex flex-col gap-2 items-center m-2">
+          {/* Heading */}
           <h1 className="font-semibold">Upload images</h1>
 
-          <div className="w-full flex gap-2 justify-between items-center border border-gray-500 p-3 rounded-inputRadius">
-            <input type="file" id="images" accept="image/*" multiple />
-            <motion.button
-              whileHover={{ scale: 1.03, opacity: 0.9 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-black text-white p-3 rounded-buttonRadius"
-            >
-              Upload
-            </motion.button>
+          {/* The images upload section and images are display in this container */}
+          <div className="w-full max-h-96 flex flex-col gap-2 justify-between items-center border border-gray-500 p-3 rounded-lg overflow-scroll">
+            {/* The image upload area and upload button */}
+            <div className="w-full flex justify-between items-center">
+              <input
+                type="file"
+                id="images"
+                accept="image/*"
+                onChange={(e) => setImgFiles(e.target.files)}
+                multiple
+              />
+              <CustomButton text={isUploading ? "Uploading.." : "Upload"} buttonHandler={handleImagesUpload} />
+            </div>
+            {form.imageUrls.length === 0 ? (
+              <img src={emptyList} className="w-24 my-10" />
+            ) : (
+              form.imageUrls.map((url, index) => {
+                return (
+                  <ImageItem
+                    key={index}
+                    imageUrl={url}
+                    onDelete={handleDeleteImage}
+                    index={index}
+                  />
+                );
+              })
+            )}
           </div>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.03, opacity: 0.9 }}
-          whileTap={{ scale: 0.95 }}
-          className="md:w-2/3 w-full bg-black text-white mt-3 p-3 rounded-buttonRadius"
-        >
-          Create
-        </motion.button>
+        <CustomButton
+          type="submit"
+          text="Create"
+          responsiveWidth="md:w-2/3 w-full"
+        />
       </form>
     </motion.main>
   );
