@@ -9,7 +9,7 @@ export default function HomesList() {
       <div className="flex justify-between items-center">
         <div />
         <h1 className="text-3xl font-semibold self-center">Your Homes</h1>
-        <Link to="/create-home">
+        <Link to="/add-home">
           <motion.div
             whileHover={{ scale: 1.03, opacity: 0.9 }}
             whileTap={{ scale: 0.95 }}
