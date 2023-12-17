@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 export default function CustomButton({
   type = "button",
   text,
-  icon = null,
   bgColor = "black",
   textColor = "white",
   responsiveWidth = "",
