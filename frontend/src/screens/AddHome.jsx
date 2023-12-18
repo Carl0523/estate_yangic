@@ -178,7 +178,7 @@ export default function AddHome() {
             value={form.name}
             placeholder="Squire Center"
             minLength="4"
-            maxLength="50"
+            maxLength="100"
             className="outline outline-gray-500 focus:outline-blue-500 p-3 rounded-inputRadius focus:outline-2"
             required
             onChange={handleFormChange}
@@ -199,7 +199,7 @@ export default function AddHome() {
             value={form.address}
             placeholder="290 College Ave, Blacksburg, VA, 24060"
             minLength="4"
-            maxLength="50"
+            maxLength="100"
             className="outline p-3 outline-gray-500 focus:outline-blue-500 rounded-inputRadius focus:outline-2"
             required
             onChange={handleFormChange}
