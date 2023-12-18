@@ -229,7 +229,10 @@ export default function AddHome() {
               <CustomButton text={isUploading ? "Uploading.." : "Upload"} buttonHandler={handleImagesUpload} />
             </div>
             {form.imageUrls.length === 0 ? (
-              <img src={emptyList} className="w-24 my-10" />
+              <div className="flex flex-col gap-2 my-10 justify-center items-center">
+                <img src={emptyList} className="w-24" />
+                <span className="text-gray-400">Add images here</span>
+              </div>
             ) : (
               form.imageUrls.map((url, index) => {
                 return (
