@@ -96,7 +96,7 @@ export default function Register() {
           </h1>
 
           {/* OPTIONAL: error message --> display when error happen */}
-          {error && <ErrorMessage errorMessage={error} />}
+          {error && <ErrorMessage errorMessage={error} customCss="lg:w-4/6 w-5/6"/>}
 
           {/* b2. Sign up with google button */}
           <GoogleAuth/>
