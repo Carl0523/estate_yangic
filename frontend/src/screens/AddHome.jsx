@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate} from 'react-router-dom';
 import { motion } from "framer-motion";
 import {
   getDownloadURL,
@@ -9,12 +11,14 @@ import {
 import { app } from "../firebase";
 import { emptyList } from "../assets";
 import CustomButton from "../components/CustomButton";
+import ErrorMessage from "../components/ErrorMessage";
 import ImageItem from "../components/ImageItem";
+import axios from "axios";
 
 export default function AddHome() {
   const [imgFiles, setImgFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -27,6 +31,9 @@ export default function AddHome() {
     type: "sale",
     imageUrls: [],
   });
+
+  const {userInfo} = useSelector(state => state.user);
+  const navigate = useNavigate();
 
   /**
    * Upload the images to firebase storage and store the downloaded URLs into form
@@ -114,12 +121,26 @@ export default function AddHome() {
 
   /**
    * Submit the form to the server side and store in the database
-   * @param {*} e 
+   * @param {*} e
    */
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-  }
+    if (form.imageUrls.length === 0) {
+      setError("Minimum of one image required");
+      return;
+    }
+    axios
+      .post("http://localhost:3000/api/homes/create", {...form, userRef: userInfo._id}, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/your-homes");
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+      });
+  };
 
   return (
     <motion.main
@@ -131,9 +152,18 @@ export default function AddHome() {
     >
       {/* 1. Header text */}
       <h1 className="mb-3 text-center text-2xl font-semibold">Add New Home</h1>
+      {error && (
+        <ErrorMessage
+          errorMessage={error}
+          customCss="mx-auto my-5 sm:w-1/2 w-full"
+        />
+      )}
 
       {/* 2. The form */}
-      <form onSubmit={handleFormSubmit} className="sm:w-2/3 2-full flex flex-col gap-5 justify-center items-center mx-auto">
+      <form
+        onSubmit={handleFormSubmit}
+        className="sm:w-2/3 w-full flex flex-col gap-5 justify-center items-center mx-auto"
+      >
         {/* 2a. The name of the home */}
         <div className="flex flex-col md:w-2/3 w-full gap-1">
           <label
@@ -316,7 +346,9 @@ export default function AddHome() {
                 <img src={emptyList} className="w-24" />
                 <p className="text-gray-400 text-center">
                   Add images here
-                  <span className="text-xs block">(Minimum one image required)</span>
+                  <span className="text-xs block">
+                    (Minimum one image required)
+                  </span>
                 </p>
               </div>
             ) : (
