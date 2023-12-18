@@ -18,10 +18,6 @@ const homeSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
-        area: {
-            type: Number,
-            required: true
-        },
         numOfBedrooms: {
             type: Number,
             required: true
