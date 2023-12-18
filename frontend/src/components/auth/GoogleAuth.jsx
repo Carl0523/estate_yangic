@@ -1,8 +1,8 @@
 import { FcGoogle } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import { app } from "../firebase";
-import { setCredential } from "../redux/slices/userSlice";
+import { app } from "../../firebase";
+import { setCredential } from "../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

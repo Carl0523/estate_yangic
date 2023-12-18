@@ -11,9 +11,9 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { app } from "../firebase";
 
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../components/utils/ErrorMessage";
 import { setCredential, logout } from "../redux/slices/userSlice";
-import OverlayModal from "../components/OverlayModal";
+import OverlayModal from "../components/utils/OverlayModal";
 import { trashCan } from "../assets/index";
 
 const inputContainer = `flex flex-col gap-1 lg:w-3/4 w-4/5 text-base`;

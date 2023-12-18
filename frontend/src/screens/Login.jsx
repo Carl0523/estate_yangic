@@ -1,8 +1,8 @@
 import { loginMansion } from "../assets";
 import { blackLogo } from "../assets";
-import ErrorMessage from "../components/ErrorMessage";
-import Divider from "../components/Divider";
-import GoogleAuth from "../components/GoogleAuth";
+import ErrorMessage from "../components/utils/ErrorMessage";
+import Divider from "../components/utils/Divider";
+import GoogleAuth from "../components/auth/GoogleAuth";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setCredential } from "../redux/slices/userSlice";

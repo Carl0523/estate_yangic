@@ -1,11 +1,12 @@
 import { FaHome } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import IconWithText from "../components/IconWithText";
 
 export default function HomesList() {
   return (
     <div className="p-3">
+
+      {/* 1. The heading and add home button */}
       <div className="flex justify-between items-center">
         <div />
         <h1 className="text-3xl font-semibold self-center">Your Homes</h1>
@@ -19,6 +20,10 @@ export default function HomesList() {
             <span>Add Home</span>
           </motion.div>
         </Link>
+      </div>
+      {/* 2. The list of home */}
+      <div className="flex flex-wrap gap-10">
+
       </div>
     </div>
   );

@@ -10,8 +10,8 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { emptyList } from "../assets";
-import CustomButton from "../components/CustomButton";
-import ErrorMessage from "../components/ErrorMessage";
+import CustomButton from "../components/utils/CustomButton";
+import ErrorMessage from "../components/utils/ErrorMessage";
 import ImageItem from "../components/ImageItem";
 import axios from "axios";
 

@@ -1,8 +1,8 @@
 import { registerHouse } from "../assets";
 import { blackLogo } from "../assets";
-import ErrorMessage from "../components/ErrorMessage";
-import Divider from "../components/Divider";
-import GoogleAuth from "../components/GoogleAuth";
+import ErrorMessage from "../components/utils/ErrorMessage";
+import Divider from "../components/utils/Divider";
+import GoogleAuth from "../components/auth/GoogleAuth";
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
