@@ -9,7 +9,7 @@ import bcryptjs from "bcryptjs";
  * @param next mainly used for calling the middleware error handler
  */
 const updateUser = async (req, res, next) => {
-  if (req.userId != req.params.id)
+  if (req.userId !== req.params.id)
     return next(errorHandler(401, "UnAuthenticated"));
 
     
