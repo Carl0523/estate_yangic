@@ -2,10 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaMoneyBill, FaLocationDot } from "react-icons/fa6";
 import { FaParking, FaCouch } from "react-icons/fa";
-import { MdOutlineBedroomParent, MdOutlineBathroom } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdOutlineEditNote } from "react-icons/md";
+import { IoBedOutline } from "react-icons/io5";
+import { LuBath } from "react-icons/lu";
+
+
 
 import IconWithText from "../IconWithText";
 import { Link } from "react-router-dom";
@@ -76,14 +79,14 @@ export default function HomeCard({
             {/* 2B-b. The bedroom, bathroom number, and type */}
             <div className="flex gap-1 items-center mt-1">
               <IconWithText
-                icon={<MdOutlineBedroomParent className="text-2xl" />}
+                icon={<IoBedOutline className="text-2xl" />}
                 text={`${numOfBedrooms} bds`}
                 textSize="s"
                 gap="1"
                 customCss="font-light"
               />
               <IconWithText
-                icon={<MdOutlineBathroom className="text-2xl" />}
+                icon={<LuBath className="text-2xl" />}
                 text={`${numOfBathrooms} ba`}
                 textSize="s"
                 gap="1"
