@@ -27,11 +27,29 @@ export default function HomesList() {
         console.log(error);
       });
   }, []);
+
+  const deleteHandler = (homeId) => {
+    axios
+      .delete(`http://localhost:3000/api/homes/delete/${homeId}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setHomeList((prevHomes) => {
+          return prevHomes.filter((home) => {
+            return home._id !== homeId;
+          });
+        });
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div className="p-5 h-full w-full mb-20">
       {/* 1. The heading and add home button */}
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-3xl font-semibold self-center">Your Homes</h1>
+        <h1 className="sm:text-3xl text-xl font-semibold self-center">
+          Your Homes
+        </h1>
         <Link to="/add-home">
           <motion.div
             whileHover={{ scale: 1.03, opacity: 0.9 }}
@@ -68,22 +86,28 @@ export default function HomesList() {
           </span>
         </div>
       ) : (
-        <div className="w-full flex flex-wrap justify-between gap-y-4">
+        <div className="w-full flex flex-wrap gap-16 mx-1">
           {homeList.map((home, index) => {
+
+            // Convert the date info and formatted it
+            const formattedDate = new Date(home.createdAt).toLocaleDateString(
+              "en-US"
+            );
             return (
-              <Link to={`/your-homes/${home._id}`}>
-                <HomeCard
-                  key={index}
-                  coverImage={home.imageUrls[0]}
-                  price={home.price}
-                  numOfBedrooms={home.numOfBedrooms}
-                  numOfBathrooms={home.numOfBathrooms}
-                  address={home.address}
-                  type={home.type}
-                  furnished={home.furnished}
-                  parking={home.parking}
-                />
-              </Link>
+              <HomeCard
+                key={index}
+                homeId={home._id}
+                date={formattedDate}
+                coverImage={home.imageUrls[0]}
+                price={home.price}
+                numOfBedrooms={home.numOfBedrooms}
+                numOfBathrooms={home.numOfBathrooms}
+                address={home.address}
+                type={home.type}
+                furnished={home.furnished}
+                parking={home.parking}
+                onDelete={deleteHandler}
+              />
             );
           })}
         </div>

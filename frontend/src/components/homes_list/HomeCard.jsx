@@ -8,8 +8,11 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdOutlineEditNote } from "react-icons/md";
 
 import IconWithText from "../IconWithText";
+import { Link } from "react-router-dom";
 
 export default function HomeCard({
+  homeId,
+  date,
   coverImage,
   price,
   numOfBedrooms,
@@ -18,10 +21,12 @@ export default function HomeCard({
   type,
   parking,
   furnished,
+  onDelete,
 }) {
   const formattedPrice = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
+    minimumFractionDigits: 0,
   }).format(price);
 
   return (
@@ -32,71 +37,83 @@ export default function HomeCard({
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="w-[23rem] border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md cursor-pointer"
+      className="w-[23rem] border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md"
     >
       {/* 1. The delete button */}
       <motion.div
         className="self-end"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          onDelete(homeId);
+        }}
       >
-        <IoIosClose className="text-3xl cursor-pointer" onClick={() => {}} />
+        <IoIosClose className="text-3xl cursor-pointer" />
       </motion.div>
 
       {/* 2. The image and other info */}
-      <div className="flex flex-col h-96 gap-2 border rounded-md shadow-md">
-        {/* 2A. the cover image */}
-        <img src={coverImage} className="w-full h-48 object-cover rounded-md" />
-
-        {/* 2B. The information: price, bedroom, bathroom, type, address */}
-        <div className="w-full flex flex-col gap-1 px-3 py-2 mb-10">
-          {/* 2B-a. The dollar icon and price */}
-          <IconWithText
-            icon={<FaMoneyBill className="text-3xl" />}
-            text={formattedPrice}
-            textSize="2xl"
-            customCss="font-semibold"
+      <Link to={`/your-homes/${homeId}`}>
+        <div className="flex flex-col h-96 gap-2 border rounded-md shadow-md">
+          {/* 2A. the cover image */}
+          <img
+            src={coverImage}
+            className="w-full h-48 object-cover rounded-md"
           />
-          {/* 2B-b. The bedroom, bathroom number, and type */}
-          <div className="flex gap-1 items-center mt-1">
+
+          {/* 2B. The information: price, bedroom, bathroom, type, address */}
+          <div className="w-full flex flex-col gap-1 px-3 py-2 mb-10">
+            {/* 2B-a. The dollar icon and price + The date created */}
+            <div className="flex justify-between items-center">
+              <IconWithText
+                icon={<FaMoneyBill className="text-xl" />}
+                text={formattedPrice}
+                textSize="xl"
+                customCss="font-semibold"
+              />
+              <span className="text-sm text-gray-400">{date}</span>
+            </div>
+
+            {/* 2B-b. The bedroom, bathroom number, and type */}
+            <div className="flex gap-1 items-center mt-1">
+              <IconWithText
+                icon={<MdOutlineBedroomParent className="text-2xl" />}
+                text={`${numOfBedrooms} bds`}
+                textSize="s"
+                gap="1"
+                customCss="font-light"
+              />
+              <IconWithText
+                icon={<MdOutlineBathroom className="text-2xl" />}
+                text={`${numOfBathrooms} ba`}
+                textSize="s"
+                gap="1"
+                customCss="font-light"
+              />
+              <IconWithText
+                icon={
+                  <BiDotsHorizontalRounded
+                    className={`text-3xl ${
+                      type === "sale" ? "text-green-500" : "text-red-500"
+                    }`}
+                  />
+                }
+                text={`House for ${type}`}
+                textSize="s"
+                gap="1"
+                customCss="font-light"
+              />
+            </div>
+            {/* 2B.c. The address icon and address */}
             <IconWithText
-              icon={<MdOutlineBedroomParent className="text-2xl" />}
-              text={`${numOfBedrooms} bds`}
-              textSize="s"
-              gap="1"
-              customCss="font-light"
-            />
-            <IconWithText
-              icon={<MdOutlineBathroom className="text-2xl" />}
-              text={`${numOfBathrooms} ba`}
-              textSize="s"
-              gap="1"
-              customCss="font-light"
-            />
-            <IconWithText
-              icon={
-                <BiDotsHorizontalRounded
-                  className={`text-3xl ${
-                    type === "sale" ? "text-green-500" : "text-red-500"
-                  }`}
-                />
-              }
-              text={`House for ${type}`}
-              textSize="s"
-              gap="1"
-              customCss="font-light"
+              icon={<FaLocationDot className="text-xl" />}
+              text={address}
+              textSize="sm"
+              gap="2"
+              customCss="font-light mt-1"
             />
           </div>
-          {/* 2B.c. The address icon and address */}
-          <IconWithText
-            icon={<FaLocationDot className="text-xl" />}
-            text={address}
-            textSize="sm"
-            gap="2"
-            customCss="font-light mt-1"
-          />
         </div>
-      </div>
+      </Link>
 
       {/* 3. The other info */}
       <div className="flex flex-wrap justify-around my-5">
