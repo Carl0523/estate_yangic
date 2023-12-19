@@ -12,7 +12,6 @@ export default function HomesList() {
   const [isLoading, setIsLoading] = useState(true);
   const [homeList, setHomeList] = useState([]);
 
-
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export default function HomesList() {
       });
   }, []);
   return (
-    <div className="p-5 h-screen w-screen mb-20">
+    <div className="p-5 h-full w-full mb-20">
       {/* 1. The heading and add home button */}
       <div className="flex justify-between items-center mb-5">
         <h1 className="text-3xl font-semibold self-center">Your Homes</h1>
@@ -63,27 +62,28 @@ export default function HomesList() {
           <img src={emptyHomeList} className="h-40 w-40" />
           <span className="text-2xl text-gray-400">
             Add all your properties here
-            <span className="block text-center text-base text-blue-400">Click Add Home</span>
+            <span className="block text-center text-base text-blue-400">
+              Click Add Home
+            </span>
           </span>
         </div>
       ) : (
-        <div className="flex justify-center flex-wrap gap-10">
+        <div className="w-full flex flex-wrap justify-between gap-y-4">
           {homeList.map((home, index) => {
             return (
               <Link to={`/your-homes/${home._id}`}>
-              <HomeCard
-              key={index}
-              coverImage={home.imageUrls[0]}
-              price={home.price}
-              numOfBedrooms={home.numOfBedrooms}
-              numOfBathrooms={home.numOfBathrooms}
-              address={home.address}
-              type={home.type}
-              furnished={home.furnished}
-              parking={home.parking}
-            />
+                <HomeCard
+                  key={index}
+                  coverImage={home.imageUrls[0]}
+                  price={home.price}
+                  numOfBedrooms={home.numOfBedrooms}
+                  numOfBathrooms={home.numOfBathrooms}
+                  address={home.address}
+                  type={home.type}
+                  furnished={home.furnished}
+                  parking={home.parking}
+                />
               </Link>
-              
             );
           })}
         </div>
