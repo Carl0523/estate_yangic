@@ -86,9 +86,8 @@ export default function HomesList() {
           </span>
         </div>
       ) : (
-        <div className="w-full flex flex-wrap gap-16 mx-1">
+        <div className="w-full flex flex-wrap gap-16 mx-1 my-10">
           {homeList.map((home, index) => {
-
             // Convert the date info and formatted it
             const formattedDate = new Date(home.createdAt).toLocaleDateString(
               "en-US"

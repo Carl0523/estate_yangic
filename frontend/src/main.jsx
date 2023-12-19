@@ -16,8 +16,9 @@ import Register from "./screens/Register.jsx";
 import Profile from "./screens/Profile.jsx";
 import HomesList from "./screens/HomesList.jsx";
 import AddHome from "./screens/AddHome.jsx";
-import "./index.css";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import UpdateHome from "./screens/UpdateHome.jsx";
+import "./index.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<Profile />} />
         <Route path="/your-homes" element={<HomesList/>}/>
         <Route path="/add-home" element={<AddHome/>}/>
+        <Route path="/update-home/:id" element={<UpdateHome/>}/>
       </Route>
     </Route>
   )
