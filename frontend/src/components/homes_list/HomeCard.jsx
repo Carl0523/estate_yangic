@@ -137,10 +137,13 @@ export default function HomeCard({
           </div>
         </div>
       </div>
+      
+      <hr className="border w-full border-gray-300" />
+      {/* 4. The Edit button */}
       <motion.button
         whileHover={{ scale: 1.03, opacity: 0.9 }}
         whileTap={{ scale: 0.95 }}
-        className="w-1/3 flex justify-center self-center mb-2 gap-2 py-2 px-4 bg-black text-white rounded-buttonRadius"
+        className="w-1/3 flex justify-center self-center my-2 gap-2 py-2 px-4 bg-black text-white rounded-buttonRadius"
       >
         <MdOutlineEditNote className="text-2xl" />
         <span>Edit</span>
