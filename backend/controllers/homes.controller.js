@@ -1,4 +1,5 @@
 import Home from "../models/home.model.js";
+import { errorHandler } from "../utils/error.js";
 
 /**
  * Create the new Home item and send to MongoDB database and return with the info
@@ -37,8 +38,39 @@ const getHomeList = async (req, res, next) => {
     }
 }
 
+/**
+ * Delete the home item with specified id
+ * @param req The delete request from the client side
+ * @param res the response send back to client side when successfully
+ * @param next the function to handle the error
+ */
+const deleteHomeItem = async (req, res, next) => {
+    const homeId = req.params.id;
+    // 1. Try to find the home item by id in the database
+    const home = await Home.findById(homeId);
+
+    // 2. If not found return not found error
+    if (!home) return next(errorHandler(404, "Home is not found"));
+
+    // 3. Check if the user is authenticated
+    if (req.userId !== home.userRef)
+    {
+        return next(errorHandler(401, "You're not authenticated to delete the item"));
+    }
+
+    try {
+        await Home.findByIdAndDelete(homeId);
+        res.status(200).json({message : "deleted successfully"})
+    } catch (error) {
+        next(error);
+    }
+
+    
+
+}
 
 
 
 
-export {createHome, getHomeList};
+
+export {createHome, getHomeList, deleteHomeItem};
