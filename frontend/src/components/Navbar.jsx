@@ -89,21 +89,21 @@ export default function Navbar() {
                   <IconWithText
                     text="Profile"
                     icon={<RxAvatar className="text-2xl" />}
-                    customCss="hover:text-gray-600 hover:scale-95"
+                    customCss="hover:text-gray-600 hover:scale-95 font-normal"
                   />
                 </Link>
                 <Link to="/your-homes" onClick={() => setIsMenuOpen(false)}>
                   <IconWithText
                     text="Your Homes"
                     icon={<FaHome className="text-2xl" />}
-                    customCss="hover:text-gray-600 hover:scale-95"
+                    customCss="hover:text-gray-600 hover:scale-95 font-normal"
                   />
                 </Link>
                 <Link onClick={logoutHandler} to="/">
                   <IconWithText
                     text="Logout"
                     icon={<MdOutlineLogout className="text-2xl" />}
-                    customCss="hover:text-gray-600 hover:scale-95"
+                    customCss="hover:text-gray-600 hover:scale-95 font-normal"
                   />
                 </Link>
               </motion.div>
