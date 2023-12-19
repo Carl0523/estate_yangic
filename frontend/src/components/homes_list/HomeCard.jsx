@@ -115,7 +115,7 @@ export default function HomeCard({
           <div className="flex flex-col">
             <h2>Furnished</h2>
             <span className="text-gray-500 text-sm">
-              {parking ? "yes" : "no"}
+              {furnished ? "yes" : "no"}
             </span>
           </div>
         </div>

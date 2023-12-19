@@ -12,6 +12,7 @@ export default function HomesList() {
   const [isLoading, setIsLoading] = useState(true);
   const [homeList, setHomeList] = useState([]);
 
+
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -69,17 +70,20 @@ export default function HomesList() {
         <div className="flex justify-center flex-wrap gap-10">
           {homeList.map((home, index) => {
             return (
+              <Link to={`/your-homes/${home._id}`}>
               <HomeCard
-                key={index}
-                coverImage={home.imageUrls[0]}
-                price={home.price}
-                numOfBedrooms={home.numOfBedrooms}
-                numOfBathrooms={home.numOfBathrooms}
-                address={home.address}
-                type={home.type}
-                furnished={home.furnished}
-                parking={home.parking}
-              />
+              key={index}
+              coverImage={home.imageUrls[0]}
+              price={home.price}
+              numOfBedrooms={home.numOfBedrooms}
+              numOfBathrooms={home.numOfBathrooms}
+              address={home.address}
+              type={home.type}
+              furnished={home.furnished}
+              parking={home.parking}
+            />
+              </Link>
+              
             );
           })}
         </div>
