@@ -218,6 +218,7 @@ export default function AddHome() {
             type="text"
             id="description"
             value={form.description}
+            rows="9"
             placeholder="Add description"
             minLength="1"
             className="outline p-3 outline-gray-500 focus:outline-blue-500 rounded-inputRadius focus:outline-2"
