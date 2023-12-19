@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function IconWithText({ icon, text, textSize="lg", customCss=""}) {
+export default function IconWithText({ icon, text, textSize="lg", customCss="", gap=3}) {
   return (
-    <div className={`flex items-center gap-3 ${customCss}`}>
+    <div className={`flex items-center gap-${gap} ${customCss}`}>
       {icon}
-      <p className={`font-normal text-${textSize}`}>{text}</p>
+      <p className={`text-${textSize}`}>{text}</p>
     </div>
   );
 }
