@@ -93,4 +93,22 @@ const updateHomeItem = async (req, res, next) => {
   }
 };
 
-export { createHome, getHomeList, deleteHomeItem, updateHomeItem };
+/**
+ * Find the home item with specified id
+ * @param req The get request from the client side
+ * @param res the response should send back the data of home
+ * @param next the function to handle the error
+ */
+const getHomeItem = async (req, res, next) => {
+  const home = await Home.findById(req.params.id);
+
+  if (!home) return (errorHandler(404, "The home item is not found"));
+
+  try {
+    res.status(200).json(home);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { createHome, getHomeList, deleteHomeItem, updateHomeItem, getHomeItem };
