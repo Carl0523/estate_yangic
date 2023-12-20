@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { IoIosCloseCircle } from "react-icons/io";
 import { motion } from "framer-motion";
 import {
   getDownloadURL,
@@ -164,7 +163,6 @@ export default function UpdateHome() {
       transition={{ duration: 0.5 }}
       className="max-w-full p-3 mx-auto my-7"
     >
-
       {/* 1. Header text */}
       <h1 className="text-center text-2xl font-semibold mb-3">Update Home</h1>
       <span />
@@ -388,6 +386,16 @@ export default function UpdateHome() {
           type="submit"
           text="Update"
           responsiveWidth="md:w-2/3 w-full"
+        />
+        <CustomButton
+          text="Cancel"
+          bgColor="red-500"
+          margin="m-0"
+          textColor="white"
+          responsiveWidth="md:w-2/3 w-full"
+          buttonHandler={() => {
+            navigate("/your-homes");
+          }}
         />
       </form>
     </motion.main>

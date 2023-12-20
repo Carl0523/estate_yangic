@@ -371,6 +371,16 @@ export default function AddHome() {
           text="Create"
           responsiveWidth="md:w-2/3 w-full"
         />
+        <CustomButton
+          text="Cancel"
+          bgColor="red-500"
+          margin="m-0"
+          textColor="white"
+          responsiveWidth="md:w-2/3 w-full"
+          buttonHandler={() => {
+            navigate("/your-homes");
+          }}
+        />
       </form>
     </motion.main>
   );
