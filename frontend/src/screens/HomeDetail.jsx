@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { FaHome, FaBath, FaParking, FaCouch, FaShare } from "react-icons/fa";
 import { FaLocationDot, FaPhone, FaCheck } from "react-icons/fa6";
-import { IoBedSharp, IoShare, IoShareOutline} from "react-icons/io5";
+import { IoBedSharp} from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 
@@ -20,6 +20,7 @@ import IconWithText from "../components/IconWithText";
 export default function HomeDetail() {
   const [homeDetail, setHomeDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCopied, setIsCopied] = useState(false);
   const [error, setError] = useState(null);
 
   const params = useParams();
@@ -148,13 +149,19 @@ export default function HomeDetail() {
             {/* 2E. Other info about the house */}
             <div className="flex flex-wrap gap-10 py-5">
               <div className="w-1/4 flex justify-between items-center bg-gray-100 py-2 px-3 rounded-buttonRadius">
-                <IconWithText text="Parking" icon={<FaParking className="text-xl"/>} />
-                {homeDetail.parking ? <FaCheck/> : <IoMdClose/>}
+                <IconWithText
+                  text="Parking"
+                  icon={<FaParking className="text-xl" />}
+                />
+                {homeDetail.parking ? <FaCheck /> : <IoMdClose />}
               </div>
 
               <div className="w-1/4 flex justify-between items-center bg-gray-100 py-2 px-3 rounded-buttonRadius">
-                <IconWithText text="Furnished" icon={<FaCouch className="text-xl"/>} />
-                {homeDetail.furnished ? <FaCheck/> : <IoMdClose/>}
+                <IconWithText
+                  text="Furnished"
+                  icon={<FaCouch className="text-xl" />}
+                />
+                {homeDetail.furnished ? <FaCheck /> : <IoMdClose />}
               </div>
             </div>
 
@@ -172,11 +179,42 @@ export default function HomeDetail() {
             <IconWithText text="Contact the owner" icon={<FaPhone />} />
           </button>
 
+          {/* <FaShare
+              className='text-slate-500'
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                setCopied(true);
+                setTimeout(() => {
+                  setCopied(false);
+                }, 2000);
+              }}
+            />
+          </div>
+          {copied && (
+            <p className='fixed top-[23%] right-[5%] z-10 rounded-md bg-slate-100 p-2'>
+              Link copied!
+            </p>
+          )} */}
+
           {/* 4. The share button on the top right of the screen */}
-          <button className="absolute top-24 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105">
-            <FaShare/>
+          <button onClick={
+            () => {
+              navigator.clipboard.writeText(window.location.href);
+                setIsCopied(true);
+                setTimeout(() => {
+                  setIsCopied(false);
+                }, 2000);
+            }
+          } className="absolute top-24 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105">
+            <FaShare />
           </button>
 
+          {/* OPTIONAL: Link copy notification */}
+          {isCopied && (
+            <div className='fixed bottom-36 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 rounded-md bg-transparentBg p-2'>
+              <IconWithText text="Link copied!" icon={<FaCheck className="text-green-500"/>} customCss="text-white"/>
+            </div>
+          )}
         </>
       )}
     </>
