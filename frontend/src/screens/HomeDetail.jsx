@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import { FaHome, FaBath, FaParking, FaCouch } from "react-icons/fa";
+import { FaHome, FaBath, FaParking, FaCouch, FaShare } from "react-icons/fa";
 import { FaLocationDot, FaPhone, FaCheck } from "react-icons/fa6";
-import { IoBedSharp } from "react-icons/io5";
+import { IoBedSharp, IoShare, IoShareOutline} from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 
@@ -171,6 +171,12 @@ export default function HomeDetail() {
           <button className="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-black text-white py-2 px-4 rounded-buttonRadius hover:scale-105 hover:opacity-95 active:scale-95">
             <IconWithText text="Contact the owner" icon={<FaPhone />} />
           </button>
+
+          {/* 4. The share button on the top right of the screen */}
+          <button className="absolute top-24 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105">
+            <FaShare/>
+          </button>
+
         </>
       )}
     </>
