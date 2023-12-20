@@ -83,7 +83,7 @@ export default function Navbar() {
                 animate={{ translateY: 0, opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col gap-2 p-6 absolute top-16 right-0 mx-4 my-3 min-w-[140px] rounded-2xl border shadow-lg z-10 bg-white"
+                className="flex flex-col gap-2 p-6 absolute top-16 right-0 mx-4 my-3 min-w-[140px] rounded-2xl border shadow-lg z-30 bg-white"
               >
                 <Link to="/profile" onClick={() => setIsMenuOpen(false)}>
                   <IconWithText
