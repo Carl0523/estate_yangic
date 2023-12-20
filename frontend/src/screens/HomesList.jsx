@@ -11,7 +11,7 @@ import axios from "axios";
 export default function HomesList() {
   const [isLoading, setIsLoading] = useState(true);
   const [homeList, setHomeList] = useState([]);
-
+  
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaMoneyBill, FaLocationDot } from "react-icons/fa6";
-import { FaParking, FaCouch, FaShare } from "react-icons/fa";
+import { FaParking, FaCouch, FaShare, FaCheck } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { MdOutlineEditNote } from "react-icons/md";
@@ -29,6 +29,19 @@ export default function HomeCard({
     currency: "USD",
     minimumFractionDigits: 0,
   }).format(price);
+  const [isCopied, setIsCopied] = useState(false);
+
+  /**
+   * Copy the current link to the clipboard and then display the
+   * notification for 2 second
+   */
+  const handleLinkCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  };
 
   return (
     <motion.div
@@ -55,11 +68,30 @@ export default function HomeCard({
       {/* 2. The image and other info */}
       <Link to={`/homes/${homeId}`}>
         <div className="flex relative flex-col h-96 gap-2 border rounded-md shadow-md">
-
           {/* The share button on the top right of the image */}
-          <button className="absolute top-2 right-2 text-white bg-transparentBg p-3 rounded-full hover:scale-105">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleLinkCopy();
+            }}
+            className="absolute top-2 right-2 text-white bg-transparentBg p-3 rounded-full hover:scale-105"
+          >
             <FaShare />
           </button>
+
+          {/* Display the message of link copied */}
+          {isCopied && (
+            <div className="absolute top-2 right-14 z-10 rounded-md bg-transparentBg p-2">
+              <IconWithText
+                text="Link copied!"
+                icon={<FaCheck className="text-green-500 text-sm" />}
+                customCss="text-white"
+                textSize="sm"
+              />
+            </div>
+          )}
+
           {/* 2A. the cover image */}
           <img
             src={coverImage}

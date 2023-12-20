@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { FaHome, FaBath, FaParking, FaCouch, FaShare } from "react-icons/fa";
 import { FaLocationDot, FaPhone, FaCheck } from "react-icons/fa6";
-import { IoBedSharp} from "react-icons/io5";
+import { IoBedSharp } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 
@@ -65,7 +65,7 @@ export default function HomeDetail() {
               "--swiper-navigation-color": "#000",
               "--swiper-pagination-color": "#000",
             }}
-            lazy={true}
+            lazy="true"
             pagination={{
               clickable: true,
               dynamicBullets: true,
@@ -75,9 +75,8 @@ export default function HomeDetail() {
           >
             {homeDetail.imageUrls.map((url, index) => {
               return (
-                <SwiperSlide className="w-full bg-gray-100">
+                <SwiperSlide key={index} className="w-full bg-gray-100">
                   <img
-                    key={index}
                     loading="lazy"
                     src={url}
                     alt="house images"
@@ -179,40 +178,28 @@ export default function HomeDetail() {
             <IconWithText text="Contact the owner" icon={<FaPhone />} />
           </button>
 
-          {/* <FaShare
-              className='text-slate-500'
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                setCopied(true);
-                setTimeout(() => {
-                  setCopied(false);
-                }, 2000);
-              }}
-            />
-          </div>
-          {copied && (
-            <p className='fixed top-[23%] right-[5%] z-10 rounded-md bg-slate-100 p-2'>
-              Link copied!
-            </p>
-          )} */}
-
           {/* 4. The share button on the top right of the screen */}
-          <button onClick={
-            () => {
+          <button
+            onClick={() => {
               navigator.clipboard.writeText(window.location.href);
-                setIsCopied(true);
-                setTimeout(() => {
-                  setIsCopied(false);
-                }, 2000);
-            }
-          } className="absolute top-24 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105">
+              setIsCopied(true);
+              setTimeout(() => {
+                setIsCopied(false);
+              }, 2000);
+            }}
+            className="absolute top-24 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105"
+          >
             <FaShare />
           </button>
 
           {/* OPTIONAL: Link copy notification */}
           {isCopied && (
-            <div className='fixed bottom-36 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 rounded-md bg-transparentBg p-2'>
-              <IconWithText text="Link copied!" icon={<FaCheck className="text-green-500"/>} customCss="text-white"/>
+            <div className="fixed bottom-36 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 rounded-md bg-transparentBg p-2">
+              <IconWithText
+                text="Link copied!"
+                icon={<FaCheck className="text-green-500" />}
+                customCss="text-white"
+              />
             </div>
           )}
         </>
