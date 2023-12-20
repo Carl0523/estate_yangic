@@ -53,7 +53,7 @@ export default function HomeCard({
       </motion.div>
 
       {/* 2. The image and other info */}
-      <Link to={`/your-homes/${homeId}`}>
+      <Link to={`/homes/${homeId}`}>
         <div className="flex flex-col h-96 gap-2 border rounded-md shadow-md">
           {/* 2A. the cover image */}
           <img
@@ -67,7 +67,7 @@ export default function HomeCard({
             <div className="flex justify-between items-center">
               <IconWithText
                 icon={<FaMoneyBill className="text-xl" />}
-                text={formattedPrice}
+                text={formattedPrice + (type === "rent" ? "/month" : "")}
                 textSize="xl"
                 customCss="font-semibold"
               />
