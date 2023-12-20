@@ -7,7 +7,8 @@ export default {
         primary: "rgb(82, 89, 212)",
         alertFont: "rgb(193, 113, 112)",
         alertContainer: "rgb(244, 237, 236)",
-        overlay: "rgba(0, 0, 0, 0.6)"
+        overlay: "rgba(0, 0, 0, 0.6)",
+        transparentBg: "rgba(0, 0, 0, 0.5)"
       },
       screens: {
         xs: "400px",
