@@ -1,4 +1,4 @@
-import Home from "../models/home.model.js";
+import Home from "../models/homes.model.js";
 import { errorHandler } from "../utils/error.js";
 
 /**
@@ -22,7 +22,7 @@ const createHome = async (req, res, next) => {
  * @param res response the client-side with the list of homes
  * @param next next function handle any error
  */
-const getHomeList = async (req, res, next) => {
+const getUserHomeList = async (req, res, next) => {
   if (req.userId === req.params.id) {
     try {
       const homes = await Home.find({ userRef: req.params.id });
@@ -89,7 +89,7 @@ const updateHomeItem = async (req, res, next) => {
     });
     res.status(200).json(updatedHome);
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
@@ -102,13 +102,79 @@ const updateHomeItem = async (req, res, next) => {
 const getHomeItem = async (req, res, next) => {
   const home = await Home.findById(req.params.id);
 
-  if (!home) return (errorHandler(404, "The home item is not found"));
+  if (!home) return errorHandler(404, "The home item is not found");
 
   try {
     res.status(200).json(home);
   } catch (error) {
     next(error);
   }
-}
+};
 
-export { createHome, getHomeList, deleteHomeItem, updateHomeItem, getHomeItem };
+/**
+ * Fetch a list of houses from database based on the provided search term and filters
+ * @param req The request containing the search term and filter from client side
+ * @param res The list of houses
+ * @param next Middleware function to take care of the errors
+ */
+const getHomeList = async (req, res, next) => {
+  try {
+    // 1. The limit and starting index for each query
+    const limit = parseInt(req.query.limit) || 10;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+
+    // 2. The filter for home type: sale, rent, or both
+    let type = req.query.type;
+    // If the type filter is not specified or is set to "all", include homes of both types: rent and sale.
+    if (type === undefined || type === "all") {
+      type = { $in: ["rent", "sale"] };
+    }
+
+    // 3. The filter for parking
+    let hasParking = req.query.parking;
+    // If the parking filter is not specified or is unchecked, include homes with or without parking.
+    if (hasParking === undefined || hasParking === "false") {
+      hasParking = { $in: [true, false] };
+    }
+
+    // 4. The filter for furnished
+    let isFurnished = req.query.furnished;
+    // If the furnished filter is not specified or is unchecked, include homes with or without furniture.
+    if (isFurnished === undefined || isFurnished === "false") {
+      isFurnished = { $in: [true, false] };
+    }
+
+    // 5. Search keyword entered by the user
+    const searchWords = req.query.searchWords || "";
+
+    // 6. Sort type. Default: sort based on the created time
+    const sort = req.query.sort || "createdAt";
+
+    // 7. Sorting order: ascending or descending. Default: descending
+    const order = req.query.order || "desc";
+
+    // Find the list of homes based on the filters and search words
+    const homeList = await Home.find({
+      name: { $regex: searchWords, $options: "i" },
+      furnished: isFurnished,
+      parking: hasParking,
+      type: type,
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+
+    res.status(200).json(homeList);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  createHome,
+  getUserHomeList,
+  deleteHomeItem,
+  updateHomeItem,
+  getHomeItem,
+  getHomeList,
+};
