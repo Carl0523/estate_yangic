@@ -17,12 +17,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import IconWithText from "../components/IconWithText";
+import Overlay from "../components/utils/Overlay";
+import ContactModal from "../components/home_detail/ContactModal";
 
 export default function HomeDetail() {
   const [homeDetail, setHomeDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [error, setError] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = useParams();
   const homeId = params.id;
@@ -181,9 +185,27 @@ export default function HomeDetail() {
            * The button can only been seen by other users
            */}
           {(!userInfo || (userInfo && userInfo._id !== homeDetail.userRef)) && (
-            <button className="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-black text-white py-2 px-4 rounded-buttonRadius hover:scale-105 hover:opacity-95 active:scale-95">
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-black text-white py-2 px-4 rounded-buttonRadius hover:scale-105 hover:opacity-95 active:scale-95"
+            >
               <IconWithText text="Contact the owner" icon={<FaPhone />} />
             </button>
+          )}
+
+          {/**
+           * The Modal to send message to the owner
+           */}
+          {isModalOpen && (
+            <Overlay>
+              <ContactModal
+                userId={homeDetail.userRef}
+                homeName={homeDetail.name}
+                onClose={() => setIsModalOpen(false)}
+              />
+            </Overlay>
           )}
 
           {/* 4. The share button: copy the current URL */}
