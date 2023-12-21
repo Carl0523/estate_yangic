@@ -15,7 +15,6 @@ export default function ContactModal({ userId, homeName, onClose }) {
     setMessage(event.target.value);
   };
 
-
   useEffect(() => {
     axios
       .get(`http://localhost:3000/api/user/userInfo/${userId}`, {
@@ -48,9 +47,9 @@ export default function ContactModal({ userId, homeName, onClose }) {
             <IoMdClose className="text-2xl cursor-pointer" onClick={onClose} />
           </div>
 
-          {/* 2. Avatar + user name + message form session */}
-          <div className="flex flex-col my-20 overflow-scroll px-5 py-5">
-            {/* 2A. The avatar and the username */}
+          {/* 2. Avatar and email + message form session */}
+          <div className="flex flex-col my-20 overflow-scroll px-7 py-5">
+            {/* 2A. The avatar + email */}
             <div className="flex flex-col items-center gap-2 mb-2">
               <img
                 src={userInfo.avatar}
@@ -58,12 +57,12 @@ export default function ContactModal({ userId, homeName, onClose }) {
                 referrerPolicy="no-referrer"
                 className="h-20 w-20 border rounded-full"
               />
-              <h2 className="font-semibold">{userInfo.username}</h2>
+              <h3>{userInfo.email}</h3>
             </div>
 
             {/* 2C. The message form */}
-            <div className="w-full flex flex-col gap-2 my-2">
-              <h2 className="font-normal">Message</h2>
+            <div className="w-full flex flex-col gap-2 my-4">
+              <h2 className="font-medium">Message</h2>
               <textarea
                 rows="5"
                 value={message}
