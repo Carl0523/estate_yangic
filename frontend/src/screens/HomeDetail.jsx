@@ -2,6 +2,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 import { FaHome, FaBath, FaParking, FaCouch, FaShare } from "react-icons/fa";
@@ -25,6 +26,8 @@ export default function HomeDetail() {
 
   const params = useParams();
   const homeId = params.id;
+
+  const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
     axios
@@ -173,12 +176,17 @@ export default function HomeDetail() {
             </div>
           </div>
 
-          {/* 3. Contact the landlord button fixed at the middle bottom of the page */}
-          <button className="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-black text-white py-2 px-4 rounded-buttonRadius hover:scale-105 hover:opacity-95 active:scale-95">
-            <IconWithText text="Contact the owner" icon={<FaPhone />} />
-          </button>
+          {/**
+           * 3. Contact the landlord button fixed at the middle bottom of the page
+           * The button can only been seen by other users
+           */}
+          {(!userInfo || (userInfo && userInfo._id !== homeDetail.userRef)) && (
+            <button className="fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-black text-white py-2 px-4 rounded-buttonRadius hover:scale-105 hover:opacity-95 active:scale-95">
+              <IconWithText text="Contact the owner" icon={<FaPhone />} />
+            </button>
+          )}
 
-          {/* 4. The share button on the top right of the screen */}
+          {/* 4. The share button: copy the current URL */}
           <button
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
@@ -194,7 +202,7 @@ export default function HomeDetail() {
 
           {/* OPTIONAL: Link copy notification */}
           {isCopied && (
-            <div className="fixed bottom-36 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 rounded-md bg-transparentBg p-2">
+            <div className="absolute bottom-36 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 rounded-md bg-transparentBg p-2">
               <IconWithText
                 text="Link copied!"
                 icon={<FaCheck className="text-green-500" />}
