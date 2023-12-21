@@ -4,17 +4,20 @@ import { FaLocationDot } from "react-icons/fa6";
 import { RxAvatar } from "react-icons/rx";
 import { MdOutlineLogout } from "react-icons/md";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/userSlice";
 import IconWithText from "./IconWithText";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchWords, setSearchWords] = useState("");
+
   const { userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const avatarClickHandler = () => {
     setIsMenuOpen((prevState) => {
@@ -35,6 +38,28 @@ export default function Navbar() {
     dispatch(logout());
   };
 
+  /**
+   * Create urlParams based on the search words enter by the user
+   * and then navigate to specific route
+   * @param e the event listener object
+   */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // create new URLSearchParams object that contain the querystring part of URL
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchWords", searchWords);
+    const urlQuery = urlParams.toString(); // It may contain number
+    navigate(`/search?${urlQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchWords = urlParams.get("searchWords");
+    if (searchWords) {
+      setSearchWords(searchWords);
+    }
+  }, [location.search]);
+
   return (
     <header className="flex justify-between items-center xs:px-6 xs:py-4 py-2 px-3 bg-white z-10">
       {/* 1. Logo and the Logo name */}
@@ -52,16 +77,25 @@ export default function Navbar() {
       </Link>
 
       {/* 2. The middle search bar */}
-      <form className="flex items-center p-3 bg-gray-100 rounded-md">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center p-3 bg-gray-100 rounded-md"
+      >
         <FaLocationDot className="mr-2 xs:text-base text-xs" />
         <input
           type="text"
           placeholder="Enter an address or ZIP code"
+          onChange={(e) => {
+            setSearchWords(e.target.value);
+          }}
+          value={searchWords}
           className="bg-transparent outline-none lg:w-[18rem] lg:focus:w-[30rem] 
             md:w-[16rem] md:focus:w-[24rem] sm:w-[12rem] sm:focus:w-[17rem] 
             xs:focus:w-[13rem] w-[10rem] xs:text-base text-xs duration-200"
         />
-        <FaSearch className="cursor-pointer xs:text-base text-xs" />
+        <button>
+          <FaSearch className="cursor-pointer xs:text-base text-xs" />
+        </button>
       </form>
 
       {/* 3. The navigation links */}
