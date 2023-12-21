@@ -31,24 +31,24 @@ export default function ContactModal({ userId, homeName, onClose }) {
   return (
     <>
       {userInfo && (
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, translateY: "-100%", translateX: "-50%" }}
           animate={{ opacity: 1, translateY: "-50%", translateX: "-50%" }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed md:w-[40%] w-[80%] h-[30rem] flex flex-col gap-2 top-1/2 left-1/2 z-50 bg-white shadow-card rounded-lg"
+          className="fixed md:w-[40%] w-[80%] h-[30rem] flex flex-col gap-2 top-1/2 left-1/2 z-50 bg-white shadow-card rounded-lg overflow-hidden"
         >
           {/* 1. The heading: House's name + close button */}
-          <div className="fixed flex items-center justify-between top-0 left-0 right-0 border-b p-5 bg-white rounded-t-lg">
+          <header className="relative flex items-center justify-between top-0 left-0 right-0 border-b p-5 bg-white rounded-t-lg">
             <span></span>
             <h1 className="text-2xl font-bold text-ellipsis overflow-hidden">
               {homeName}
             </h1>
             <IoMdClose className="text-2xl cursor-pointer" onClick={onClose} />
-          </div>
+          </header>
 
           {/* 2. Avatar and email + message form session */}
-          <div className="flex flex-col my-20 overflow-scroll px-7 py-5">
+          <div className="flex flex-col overflow-scroll px-7 py-5">
             {/* 2A. The avatar + email */}
             <div className="flex flex-col items-center gap-2 mb-2">
               <img
@@ -71,7 +71,7 @@ export default function ContactModal({ userId, homeName, onClose }) {
               />
             </div>
 
-            <p className="mt-5 text-xs text-gray-400">
+            <p className="mt-5 text-xs text-center text-gray-400">
               By clicking below you agree to HomeYonder.com Privacy Statement,
               Terms of Service, and consent to be contacted by email, text
               message, or autodialer for any purpose by HomeYonder.com or real
@@ -80,7 +80,7 @@ export default function ContactModal({ userId, homeName, onClose }) {
           </div>
 
           {/* 3. The send message button */}
-          <div className="w-full fixed bottom-0 left-0 p-3 border-t bg-white rounded-b-lg text-center">
+          <div className="w-full sticky bottom-0 left-0 p-3 border-t bg-white rounded-b-lg text-center">
             <Link
               to={`mailto:${userInfo.email}?subject=${homeName}&body=${message}`}
               onClick={() => {
@@ -94,7 +94,7 @@ export default function ContactModal({ userId, homeName, onClose }) {
               />
             </Link>
           </div>
-        </motion.div>
+        </motion.section>
       )}
     </>
   );
