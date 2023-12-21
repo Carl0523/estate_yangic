@@ -12,7 +12,6 @@ const updateUser = async (req, res, next) => {
   if (req.userId !== req.params.id)
     return next(errorHandler(401, "UnAuthenticated"));
 
-    
   if (req.body.email) {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
@@ -55,7 +54,8 @@ const updateUser = async (req, res, next) => {
  * @param next mainly used for calling the middleware error handler
  */
 const deleteUser = async (req, res, next) => {
-  if (req.userId !== req.params.id) return next(errorHandler(401, "Unmatched token and user account"));
+  if (req.userId !== req.params.id)
+    return next(errorHandler(401, "Unmatched token and user account"));
 
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -63,11 +63,29 @@ const deleteUser = async (req, res, next) => {
       httpOnly: true,
       expires: new Date(0),
     });
-    res.status(200).json({message: "The account is deleted"});
-  } catch (error)
-  {
-    next(error)
+    res.status(200).json({ message: "The account is deleted" });
+  } catch (error) {
+    next(error);
   }
-}
+};
 
-export { updateUser, deleteUser };
+/**
+ * Get user's info based on the id
+ * @param req The request send from the client side with id
+ * @param res The response with user's info sending back to the client side
+ * @param next mainly used for calling the middleware error handler
+ */
+const getUser = async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) return next(errorHandler(404, "The user is not found"));
+
+  try {
+    const { password, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { updateUser, deleteUser, getUser };
