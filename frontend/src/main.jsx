@@ -20,6 +20,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import UpdateHome from "./screens/UpdateHome.jsx";
 import "./index.css";
 import HomeDetail from "./screens/HomeDetail.jsx";
+import Search from "./screens/Search.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/homes/:id" element={<HomeDetail/>}/>
+      <Route path="/search" element={<Search/>}/>
 
       {/* PRIVATE ROUTES */}
       <Route path="" element={<PrivateRoute />}>
