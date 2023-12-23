@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Select from "react-dropdown-select";
-import Multiselect from "multiselect-react-dropdown";
 import CustomButton from "../utils/CustomButton";
 
 export default function Filter() {
