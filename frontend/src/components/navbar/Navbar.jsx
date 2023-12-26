@@ -65,7 +65,7 @@ export default function Navbar() {
   }, [location.search]);
 
   return (
-    <header className="flex flex-col gap-10 xs:px-6 xs:py-4 py-2 px-3 bg-white z-10">
+    <header className="fixed top-0 left-0 w-full flex flex-col gap-10 xs:px-6 xs:py-4 py-2 px-3 bg-white z-20">
       <div className="w-full flex justify-between items-center">
         {/* 1. Logo and the Logo name */}
         <Link to="/">
@@ -164,7 +164,7 @@ export default function Navbar() {
           )}
         </ul>
       </div>
-      {location.pathname.includes("search") && <Filter/>}
+      {location.pathname.includes("search") && <Filter searchWords={searchWords}/>}
     </header>
   );
 }
