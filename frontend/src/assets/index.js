@@ -8,6 +8,7 @@ import loginMansion from "./login_mansion.jpg";
 import trashCan from "./trashcan.png";
 import emptyList from "./empty_list.png";
 import emptyHomeList from "./empty_home_list.png";
+import noResultFound from "./no_result_found.png"
 
 export {
   logo,
@@ -19,5 +20,6 @@ export {
   loginMansion,
   trashCan,
   emptyList,
-  emptyHomeList
+  emptyHomeList,
+  noResultFound
 };
