@@ -22,21 +22,37 @@ export default function HomeCard({
   type,
   parking,
   furnished,
-  onDelete,
+  onDelete=null,
 }) {
+
+  const [isCopied, setIsCopied] = useState(false);
+
   const formattedPrice = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 0,
   }).format(price);
-  const [isCopied, setIsCopied] = useState(false);
+
+  /**
+   * Handle the share link icon behavior
+   * Replace the path in the given URL with new path and remove any params
+   * @param url The URL of current link
+   * @param newPath The new path to be replace with
+   * @returns The new URL
+   */
+  const replacePath = (url, newPath) => {
+    const urlObj = new URL(url);
+    urlObj.pathname = newPath; // Update path with new path
+    urlObj.search = '';  // Remove any existing params
+    return urlObj.href;
+  };
 
   /**
    * Copy the current link to the clipboard and then display the
    * notification for 2 second
    */
   const handleLinkCopy = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(replacePath(window.location.href, `homes/${homeId}`));
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
@@ -54,16 +70,18 @@ export default function HomeCard({
       className="w-[23rem] border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md"
     >
       {/* 1. The delete button */}
-      <motion.div
-        className="self-end"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => {
-          onDelete(homeId);
-        }}
-      >
-        <IoIosClose className="text-3xl cursor-pointer" />
-      </motion.div>
+      {onDelete && (
+        <motion.div
+          className="self-end"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            onDelete(homeId);
+          }}
+        >
+          <IoIosClose className="text-3xl cursor-pointer" />
+        </motion.div>
+      )}
 
       {/* 2. The image and other info */}
       <Link to={`/homes/${homeId}`}>
@@ -176,18 +194,22 @@ export default function HomeCard({
         </div>
       </div>
 
-      <hr className="border w-full border-gray-300" />
       {/* 4. The Edit button */}
-      <Link to={`/update-home/${homeId}`} className="w-1/3 self-center">
-        <motion.button
-          whileHover={{ scale: 1.05, opacity: 0.9 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-full flex gap-2 justify-center my-2 py-2 px-4 bg-black text-white rounded-buttonRadius"
-        >
-          <MdOutlineEditNote className="text-2xl" />
-          <span>Edit</span>
-        </motion.button>
-      </Link>
+      {onDelete && (
+        <>
+          <hr className="border w-full border-gray-300" />
+          <Link to={`/update-home/${homeId}`} className="w-1/3 self-center">
+            <motion.button
+              whileHover={{ scale: 1.05, opacity: 0.9 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full flex gap-2 justify-center my-2 py-2 px-4 bg-black text-white rounded-buttonRadius"
+            >
+              <MdOutlineEditNote className="text-2xl" />
+              <span>Edit</span>
+            </motion.button>
+          </Link>
+        </>
+      )}
     </motion.div>
   );
 }
