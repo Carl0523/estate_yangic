@@ -291,6 +291,7 @@ export default function AddHome() {
               id="numOfBathrooms"
               value={form.numOfBathrooms}
               min="1"
+              step="any"
               className="lg:w-1/3 w-1/2 outline outline-gray-500 focus:outline-blue-500 focus:outline-2 p-3 rounded-inputRadius"
               required
               onChange={handleFormChange}
