@@ -108,8 +108,8 @@ export default function Navbar() {
           {/* 3A. LOGIN: display the sale and rent links */}
           {userInfo ? (
             <>
-              <LinkText text="Sell" path="/search?type=sale" customCss="mr-6"/>
-              <LinkText text="Rent" path="/search?type=rent" customCss="mr-6"/>
+              <LinkText text="Sell" path="/search?type=sale" customCss="sm:mr-6 mr-2"/>
+              <LinkText text="Rent" path="/search?type=rent" customCss="sm:mr-6 mr-2"/>
               <img
                 src={userInfo.avatar}
                 alt="avatar"
