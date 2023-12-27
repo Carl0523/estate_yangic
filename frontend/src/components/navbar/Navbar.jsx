@@ -65,7 +65,7 @@ export default function Navbar() {
   }, [location.search]);
 
   return (
-    <header className="fixed top-0 left-0 w-full flex flex-col gap-10 xs:p-6 py-2 px-3 bg-white z-20">
+    <header className="fixed top-0 left-0 w-full flex flex-col gap-8 xs:p-6 py-2 px-3 bg-white z-20">
       <div className="w-full flex justify-between items-center">
         {/* 1. Logo and the Logo name */}
         <Link to="/">
