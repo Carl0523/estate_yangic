@@ -120,7 +120,7 @@ const getHomeItem = async (req, res, next) => {
 const getHomeList = async (req, res, next) => {
   try {
     // 1. The limit and starting index for each query
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
 
     // 2. The filter for home type: sale, rent, or both
