@@ -29,7 +29,7 @@ export default function Search() {
   }, [urlParams]);
 
   return (
-    <div className="lg:pt-48 pt-64">
+    <div className="xl:pt-52 pt-72">
       {isLoading ? (
         // 1. When loading, display a three dots animation in the middle of screen.
         <Loading />
@@ -38,7 +38,7 @@ export default function Search() {
         <EmptyList image={noResultFound} text="No Result Found"/>
       ) : (
         // 3. Display a list of home with matched names
-        <div className="w-full flex flex-wrap gap-16 mx-1 mb-10">
+        <div className="w-full flex flex-wrap gap-16 mx-6 mb-10">
           {homeList.map((home, index) => {
             // Convert the date info and formatted it
             const formattedDate = new Date(home.createdAt).toLocaleDateString(

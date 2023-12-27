@@ -65,7 +65,7 @@ export default function Navbar() {
   }, [location.search]);
 
   return (
-    <header className="fixed top-0 left-0 w-full flex flex-col gap-10 xs:px-6 xs:py-4 py-2 px-3 bg-white z-20">
+    <header className="fixed top-0 left-0 w-full flex flex-col gap-10 xs:p-6 py-2 px-3 bg-white z-20">
       <div className="w-full flex justify-between items-center">
         {/* 1. Logo and the Logo name */}
         <Link to="/">
@@ -108,8 +108,8 @@ export default function Navbar() {
           {/* 3A. LOGIN: display the sale and rent links */}
           {userInfo ? (
             <>
-              <LinkText text="Sell" path="/search?type=sale" customCss="sm:mr-6 mr-2"/>
-              <LinkText text="Rent" path="/search?type=rent" customCss="sm:mr-6 mr-2"/>
+              <LinkText text="Sell" path="/search?type=sale" customCss="sm:mr-4 mr-2 text-lg"/>
+              <LinkText text="Rent" path="/search?type=rent" customCss="sm:mr-4 mr-2 text-lg"/>
               <img
                 src={userInfo.avatar}
                 alt="avatar"

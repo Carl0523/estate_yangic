@@ -64,7 +64,7 @@ export default function HomeDetail() {
       )}
       {error && <span>{error}</span>}
       {!isLoading && !error && homeDetail && (
-        <div className="mt-20">
+        <div className="mt-24">
           {/* 1. The images slider of the house */}
           <Swiper
             loop={true}
@@ -217,7 +217,7 @@ export default function HomeDetail() {
                 setIsCopied(false);
               }, 2000);
             }}
-            className="absolute top-24 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105"
+            className="absolute top-28 right-10 z-10 text-white bg-black p-3 rounded-full hover:scale-105"
           >
             <FaShare />
           </button>
