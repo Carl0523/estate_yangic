@@ -39,7 +39,7 @@ export default function AddHome() {
    * Upload the images to firebase storage and store the downloaded URLs into form
    */
   const handleImagesUpload = () => {
-    if (imgFiles.length > 0 && imgFiles.length < 11) {
+    if (imgFiles.length > 0 && imgFiles.length < 100) {
       const promises = [];
 
       setIsUploading(true);
@@ -134,7 +134,6 @@ export default function AddHome() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data);
         navigate("/your-homes");
       })
       .catch((error) => {
