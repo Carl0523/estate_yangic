@@ -147,7 +147,7 @@ export default function AddHome() {
       animate={{ opacity: 1, translateY: "0" }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-full p-3 mx-auto my-7"
+      className="max-w-full p-3 mx-auto mt-24 mb-4"
     >
       {/* 1. Header text */}
       <h1 className="mb-3 text-center text-2xl font-semibold">Add New Home</h1>
@@ -369,6 +369,7 @@ export default function AddHome() {
         <CustomButton
           type="submit"
           text="Create"
+          disabledCondition={isUploading}
           responsiveWidth="md:w-2/3 w-full"
         />
         <CustomButton
@@ -376,6 +377,7 @@ export default function AddHome() {
           bgColor="red-500"
           margin="m-0"
           textColor="white"
+          disabledCondition={isUploading}
           responsiveWidth="md:w-2/3 w-full"
           buttonHandler={() => {
             navigate("/your-homes");
