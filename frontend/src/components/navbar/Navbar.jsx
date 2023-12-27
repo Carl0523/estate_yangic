@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/userSlice";
 import IconWithText from "../IconWithText";
 import Filter from "./Filter";
+import LinkText from "../utils/LinkText";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,7 +55,6 @@ export default function Navbar() {
     const urlQuery = urlParams.toString(); // It may contain number
     navigate(`/search?${urlQuery}`);
   };
-
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -105,8 +105,11 @@ export default function Navbar() {
 
         {/* 3. The navigation links */}
         <ul className="flex items-center gap-5 font-semibold">
+          {/* 3A. LOGIN: display the sale and rent links */}
           {userInfo ? (
             <>
+              <LinkText text="Sell" path="/search?type=sale" customCss="mr-6"/>
+              <LinkText text="Rent" path="/search?type=rent" customCss="mr-6"/>
               <img
                 src={userInfo.avatar}
                 alt="avatar"
@@ -116,6 +119,8 @@ export default function Navbar() {
                 }`}
                 onClick={avatarClickHandler}
               />
+
+              {/* OPTIONAL: When the menu is open: display profile, your homes, and logout link */}
               {isMenuOpen && (
                 <motion.div
                   initial={{ translateY: -20, opacity: 0 }}
@@ -150,7 +155,8 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/login">
+              {/* 3B. NOT LOGIN: Display login and register links */}
+              <Link to="/login" className="">
                 <li className="hidden md:flex sm:text-base text-xs hover:scale-105">
                   Login
                 </li>
@@ -164,7 +170,9 @@ export default function Navbar() {
           )}
         </ul>
       </div>
-      {location.pathname.includes("search") && <Filter searchWords={searchWords}/>}
+      {location.pathname.includes("search") && (
+        <Filter searchWords={searchWords} />
+      )}
     </header>
   );
 }
