@@ -64,7 +64,7 @@ export default function HomeDetail() {
       )}
       {error && <span>{error}</span>}
       {!isLoading && !error && homeDetail && (
-        <>
+        <div className="mt-20">
           {/* 1. The images slider of the house */}
           <Swiper
             loop={true}
@@ -232,7 +232,7 @@ export default function HomeDetail() {
               />
             </div>
           )}
-        </>
+        </div>
       )}
     </>
   );
