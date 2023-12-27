@@ -10,7 +10,7 @@ export default function CustomButton({
   margin = "mt-3",
   padding = "p-3",
   disabledCondition = null,
-  customCss=null
+  customCss=""
 }) {
   return (
     <motion.button
