@@ -132,7 +132,7 @@ export default function Filter({ searchWords }) {
       className="flex flex-wrap items-center sm:gap-10 gap-3 gap-y-5"
     >
       {/* 1. The Title of filter section */}
-      <h2 className="text-xl font-semibold">Filter: </h2>
+      <h2 className="md:text-xl text-base font-semibold">Filter: </h2>
 
       {/* 2. The drop down selector for house type */}
       <Select
@@ -149,13 +149,12 @@ export default function Filter({ searchWords }) {
           borderRadius: "0.375rem",
           fontWeight: "600",
         }}
-        value
         onChange={handleFilterChange}
       />
 
       {/* 3. sort by selector section */}
       <div className="flex items-center gap-2">
-        <h2 className="text-xl font-semibold">Sort by: </h2>
+        <h2 className="md:text-xl text-base font-semibold">Sort by: </h2>
         <Select
           options={sortingOptions}
           values={[
@@ -182,7 +181,7 @@ export default function Filter({ searchWords }) {
 
       {/* 4. The checkboxes for amenities */}
       <div className="flex items-center gap-3 ">
-        <h2 className="text-xl font-semibold">Amenities: </h2>
+        <h2 className="md:text-xl text-base font-semibold">Amenities: </h2>
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -190,7 +189,7 @@ export default function Filter({ searchWords }) {
             onChange={handleFilterChange}
             checked={filterData.parking === "true"}
           />
-          <label htmlFor="parking" className="text-lg">
+          <label htmlFor="parking" className="md:text-lg text-sm">
             Parking
           </label>
         </div>
@@ -202,7 +201,7 @@ export default function Filter({ searchWords }) {
             onChange={handleFilterChange}
             checked={filterData.furnished === "true"}
           />
-          <label htmlFor="furnished" className="text-lg">
+          <label htmlFor="furnished" className="md:text-lg text-sm">
             Furnished
           </label>
         </div>
@@ -212,6 +211,7 @@ export default function Filter({ searchWords }) {
         text="Apply"
         margin="m-0"
         padding="py-2 px-8"
+        responsiveWidth="md:text-base text-sm"
         customCss="justify-self-end"
         type="submit"
       />
