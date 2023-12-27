@@ -29,7 +29,7 @@ export default function Search() {
   }, [urlParams]);
 
   return (
-    <div className="pt-44">
+    <div className="pt-48">
       {isLoading ? (
         // 1. When loading, display a three dots animation in the middle of screen.
         <Loading />
