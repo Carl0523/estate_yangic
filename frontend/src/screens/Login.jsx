@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 const inputContainer = `flex flex-col gap-1 lg:w-4/6 w-4/5 text-base`;
 
 export default function Login() {
-
   // the state that store the email and password
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
@@ -25,12 +24,11 @@ export default function Login() {
 
   const { userInfo } = useSelector((state) => state.user) ?? {};
 
-  useEffect(()=>{
-    if (userInfo)
-    {
-      navigate("/")
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
     }
-  }, [userInfo])
+  }, [userInfo]);
 
   // Update the form when input changed
   const handleFormChange = (event) => {
@@ -52,7 +50,9 @@ export default function Login() {
       return;
     }
     axios
-      .post("http://localhost:3000/api/auth/signin", form, {withCredentials: true})
+      .post("http://localhost:3000/api/auth/signin", form, {
+        withCredentials: true,
+      })
       .then((res) => {
         dispatch(setCredential(res.data));
         navigate("/");
@@ -65,24 +65,28 @@ export default function Login() {
   };
 
   return (
-    <motion.div
-      className="flex min-h-screen"
-      initial={{ opacity: 0}}
-      animate={{ opacity: 1}}
-      exit={{ opacity: 0 }}
-      transition={{duration: 0.5}}
-    >
+    <motion.div className="flex min-h-screen">
       {/* 1. The image of neighborhood */}
-      <div className="md:flex-3 hidden md:block">
+      <motion.div
+        initial={{ translateX: -400}}
+        animate={{ translateX: 0}}
+        transition={{ duration: 0.4 }}
+        className="md:flex-3 hidden md:block"
+      >
         <img
           src={loginMansion}
           alt="houses"
           className="w-full h-full object-cover"
         />
-      </div>
+      </motion.div>
 
       {/* 2. The login section */}
-      <div className="flex-2 p-5">
+      <motion.div
+        initial={{ translateX: 400}}
+        animate={{ translateX: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex-2 p-5"
+      >
         {/* a. The logo and logo name */}
         <Link to="/">
           <div className="flex items-center">
@@ -103,11 +107,12 @@ export default function Login() {
           <h1 className="text-2xl mb-4 font-semibold">Login to your account</h1>
 
           {/* OPTIONAL: error message --> display when error happen */}
-          {error && <ErrorMessage errorMessage={error} customCss="lg:w-4/6 w-5/6"/>}
+          {error && (
+            <ErrorMessage errorMessage={error} customCss="lg:w-4/6 w-5/6" />
+          )}
 
           {/* b2. Sign up with google button */}
-          <GoogleAuth/>
-          
+          <GoogleAuth />
 
           {/* b3. Divider line */}
           <Divider text="OR" />
@@ -180,7 +185,7 @@ export default function Login() {
             </h1>
           </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

@@ -20,14 +20,13 @@ export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {userInfo} = useSelector(state => state.user);
-  
+  const { userInfo } = useSelector((state) => state.user);
+
   useEffect(() => {
-    if(userInfo)
-    {
-      navigate("/")
+    if (userInfo) {
+      navigate("/");
     }
-  }, [userInfo])
+  }, [userInfo]);
 
   const handleFormChange = (event) => {
     setForm((prevForm) => {
@@ -51,9 +50,11 @@ export default function Register() {
       return;
     }
     axios
-      .post("http://localhost:3000/api/auth/register", form, {withCredentials: true})
+      .post("http://localhost:3000/api/auth/register", form, {
+        withCredentials: true,
+      })
       .then((res) => {
-        dispatch(setCredential(res.data))
+        dispatch(setCredential(res.data));
         navigate("/");
       })
       .catch((error) => {
@@ -64,15 +65,14 @@ export default function Register() {
   };
 
   return (
-    <motion.div
-      className="flex min-h-screen"
-      initial={{ opacity: 0}}
-      animate={{ opacity: 1}}
-      exit={{ opacity: 0 }}
-      transition={{duration: 1}}
-    >
+    <motion.div className="flex min-h-screen">
       {/* 1. The register section */}
-      <div className="flex-2 p-5">
+      <motion.div
+        initial={{ translateX: -400 }}
+        animate={{ translateX: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex-2 p-5"
+      >
         {/* a. The logo and logo name */}
 
         <Link to="/">
@@ -96,10 +96,12 @@ export default function Register() {
           </h1>
 
           {/* OPTIONAL: error message --> display when error happen */}
-          {error && <ErrorMessage errorMessage={error} customCss="lg:w-4/6 w-5/6"/>}
+          {error && (
+            <ErrorMessage errorMessage={error} customCss="lg:w-4/6 w-5/6" />
+          )}
 
           {/* b2. Sign up with google button */}
-          <GoogleAuth/>
+          <GoogleAuth />
 
           {/* b3. Divider line */}
           <Divider text="OR" />
@@ -189,16 +191,21 @@ export default function Register() {
             </h1>
           </div>
         </div>
-      </div>
+      </motion.div>
       {/* 2. The image of neighborhood */}
-      <div className="md:flex-3 hidden md:block">
+      <motion.div
+        initial={{ translateX: 400 }}
+        animate={{ translateX: 0 }}
+        transition={{ duration: 0.4 }}
+        className="md:flex-3 hidden md:block"
+      >
         <img
           src={registerHouse}
           loading="lazy"
           alt="house"
           className="w-full h-full object-cover"
         />
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
