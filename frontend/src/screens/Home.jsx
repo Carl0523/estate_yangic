@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Hero from "../components/homepage/Hero";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
       exit={{ opacity: 0 }}
       transition={{duration: 0.5}}
     >
-      Home
+      <Hero/>
     </motion.div>
   );
 }
