@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "rgb(82, 89, 212)",
+        primary: "rgb(68, 41, 236)",
         alertFont: "rgb(193, 113, 112)",
         alertContainer: "rgb(244, 237, 236)",
         overlay: "rgba(0, 0, 0, 0.6)",
