@@ -7,6 +7,7 @@ import trashCan from "./trashcan.png";
 import emptyList from "./empty_list.png";
 import emptyHomeList from "./empty_home_list.png";
 import noResultFound from "./no_result_found.png"
+import landing from "./landing2.png"
 
 export {
   logo,
@@ -17,5 +18,6 @@ export {
   trashCan,
   emptyList,
   emptyHomeList,
-  noResultFound
+  noResultFound,
+  landing
 };
