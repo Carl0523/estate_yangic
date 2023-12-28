@@ -10,7 +10,6 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import App from "./App.jsx";
 import Home from "./screens/Home.jsx";
-import About from "./screens/About.jsx";
 import Login from "./screens/Login.jsx";
 import Register from "./screens/Register.jsx";
 import Profile from "./screens/Profile.jsx";
@@ -27,7 +26,6 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       {/* Default child route */}
       <Route index={true} path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/homes/:id" element={<HomeDetail/>}/>
