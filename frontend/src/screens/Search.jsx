@@ -45,6 +45,10 @@ export default function Search() {
         if (res.data.length > 8) {
           setShowMoreButton(true);
         }
+        else
+        {
+          setShowMoreButton(false);
+        }
         setHomeList(res.data);
         setIsLoading(false);
       })
