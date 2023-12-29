@@ -93,11 +93,8 @@ export default function Login() {
             <img
               src={blackLogo}
               alt="logo"
-              className="object-contain w-[3.5rem]"
+              className="object-contain w-[8rem]"
             />
-            <h1 className="text-xl italic font-bold tracking-tight">
-              HomeYonder
-            </h1>
           </div>
         </Link>
 

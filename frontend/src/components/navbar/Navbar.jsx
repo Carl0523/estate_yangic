@@ -73,11 +73,8 @@ export default function Navbar() {
             <img
               src={logo}
               alt="logo"
-              className="object-contain xs:w-[4rem] w-[2.5rem]"
+              className="object-contain w-[8rem]"
             />
-            <h1 className="text-xl italic font-bold tracking-tight lg:flex hidden">
-              HomeYonder
-            </h1>
           </div>
         </Link>
 
