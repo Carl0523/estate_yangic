@@ -1,3 +1,4 @@
+import blackLogo from "./logo3.svg"
 import logo from "./logo3.svg";
 import registerHouse from "./register_house2.jpg";
 import loginHouse from "./login_house.jpg";
@@ -10,6 +11,7 @@ import landing from "./landing2.png";
 import avatar from "./avatar.jpeg";
 
 export {
+  blackLogo,
   logo,
   registerHouse,
   loginHouse,
