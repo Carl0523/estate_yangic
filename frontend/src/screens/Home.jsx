@@ -1,15 +1,15 @@
-import { motion } from "framer-motion";
 import Hero from "../components/homepage/Hero";
+import RecentHomes from "../components/homepage/RecentHomes";
+import About from "../components/homepage/About";
+import Footer from "../components/homepage/Footer";
 
 export default function Home() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{duration: 0.5}}
-    >
-      <Hero/>
-    </motion.div>
+    <div>
+      <Hero />
+      <RecentHomes />
+      <About/>
+      <Footer/>
+    </div>
   );
 }
