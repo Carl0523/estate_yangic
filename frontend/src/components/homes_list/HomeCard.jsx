@@ -22,9 +22,9 @@ export default function HomeCard({
   type,
   parking,
   furnished,
-  onDelete=null,
+  onDelete = null,
+  showExtraInfo = true,
 }) {
-
   const [isCopied, setIsCopied] = useState(false);
 
   const formattedPrice = Intl.NumberFormat("en-US", {
@@ -43,7 +43,7 @@ export default function HomeCard({
   const replacePath = (url, newPath) => {
     const urlObj = new URL(url);
     urlObj.pathname = newPath; // Update path with new path
-    urlObj.search = '';  // Remove any existing params
+    urlObj.search = ""; // Remove any existing params
     return urlObj.href;
   };
 
@@ -52,7 +52,9 @@ export default function HomeCard({
    * notification for 2 second
    */
   const handleLinkCopy = () => {
-    navigator.clipboard.writeText(replacePath(window.location.href, `homes/${homeId}`));
+    navigator.clipboard.writeText(
+      replacePath(window.location.href, `homes/${homeId}`)
+    );
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
@@ -67,7 +69,7 @@ export default function HomeCard({
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="sm:w-[23rem] w-11/12 border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md"
+      className="sm:w-[23rem] min-w-[23rem] w-11/12 border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md"
     >
       {/* 1. The delete button */}
       {onDelete && (
@@ -172,27 +174,29 @@ export default function HomeCard({
       </Link>
 
       {/* 3. The other info */}
-      <div className="flex flex-wrap justify-around my-5">
-        <div className="flex gap-2 items-center">
-          <FaParking className="text-xl" />
-          <div className="flex flex-col">
-            <h2>Parking</h2>
-            <span className="text-gray-500 text-sm">
-              {parking ? "yes" : "no"}
-            </span>
+      {showExtraInfo && (
+        <div className="flex flex-wrap justify-around my-5">
+          <div className="flex gap-2 items-center">
+            <FaParking className="text-xl" />
+            <div className="flex flex-col">
+              <h2>Parking</h2>
+              <span className="text-gray-500 text-sm">
+                {parking ? "yes" : "no"}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex gap-2 items-center">
-          <FaCouch className="text-xl" />
-          <div className="flex flex-col">
-            <h2>Furnished</h2>
-            <span className="text-gray-500 text-sm">
-              {furnished ? "yes" : "no"}
-            </span>
+          <div className="flex gap-2 items-center">
+            <FaCouch className="text-xl" />
+            <div className="flex flex-col">
+              <h2>Furnished</h2>
+              <span className="text-gray-500 text-sm">
+                {furnished ? "yes" : "no"}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* 4. The Edit button */}
       {onDelete && (
