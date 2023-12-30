@@ -1,15 +1,11 @@
 import { avatar } from "../../assets";
 import CustomButton from "../utils/CustomButton";
 
-
-  
 export default function About() {
   return (
-
-    <div className="w-full flex flex-col md:flex-row justify-between md:space-y-0 space-y-10 md:space-x-40 space-x-0 items-center my-20 px-10 py-24 bg-purple-100">
+    <div className="flex flex-col md:flex-row justify-between md:space-y-0 space-y-10 lg:space-x-40 md:space-x-20 space-x-0 items-center mt-32  px-10 py-24 bg-gray-200 shadow-container">
       {/* 1. The big avatar of me on the left */}
       <a
-        
         href="https://carl0523.github.io/hongyang-portfolio/"
         target="_blank"
         className="rounded-full shadow-avatar hover:shadow-avatarHover hover:-translate-x-5 duration-200"
@@ -52,10 +48,12 @@ export default function About() {
           href="https://carl0523.github.io/hongyang-portfolio/"
           target="_blank"
         >
-          <CustomButton text="Learn More" responsiveWidth="md:w-1/5 w-full" />
+          <CustomButton
+            text="Learn More"
+            responsiveWidth="lg:w-1/5 md:w-1/2 w-full"
+          />
         </a>
       </div>
     </div>
-
   );
 }
