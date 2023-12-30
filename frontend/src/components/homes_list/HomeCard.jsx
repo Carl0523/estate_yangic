@@ -69,7 +69,7 @@ export default function HomeCard({
       transition={{ duration: 0.3 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="sm:w-[23rem] min-w-[23rem] w-11/12 border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md"
+      className="sm:w-[22rem] min-w-[22rem] w-11/12 border flex flex-col gap-3 p-4 bg-white shadow-lg rounded-md"
     >
       {/* 1. The delete button */}
       {onDelete && (
