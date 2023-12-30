@@ -7,7 +7,11 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import homesRouter from './routes/homes.route.js';
 
+import path from "path";
+
 dotenv.config(); // Load .env file content into process.env
+
+const _dirname = path.resolve();
 
 // Connect to MongoDB database
 mongoose
@@ -25,9 +29,6 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type"],
-    exposedHeaders: ["Content-Type"],
   })
 );
 
@@ -41,6 +42,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/homes", homesRouter);
+
+app.use(express.static(path.join(_dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(_dirname, 'frontend', 'dist', 'index.html'));
+})
 
 // Middleware function to handle the error
 app.use((err, req, res, next) => {
