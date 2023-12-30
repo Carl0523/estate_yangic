@@ -6,8 +6,6 @@ const generateToken = (response, id) => {
     });
 
     response.cookie("access_token", token, {
-        sameSite: "strict",
-        secure: false,
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
     })
