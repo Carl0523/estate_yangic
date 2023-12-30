@@ -20,6 +20,7 @@ export default {
       boxShadow: {
         leftShadow: "-2px 0 5px 5px gray",
         card: "0 0 18px rgba(0, 0, 0, 0.7)",
+        container: "0 0 8px rgba(0, 0, 0, 0.7)",
         avatar: "5px 0 5px rgba(0, 0, 0, 0.7)",
         avatarHover: "20px 0 5px 0 rgba(0, 0, 0, 0.7)"
       },
