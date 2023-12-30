@@ -16,7 +16,7 @@ export default function Hero() {
 
   return (
     <div className="mt-24 mb-10 mx-5">
-      <div className="sm:h-[500px] h-[600px] bg-purple-300 relative rounded-lg">
+      <div className="sm:h-[500px] h-[650px] bg-purple-300 relative rounded-lg">
         {/* 1. The cover image */}
         <motion.img
           initial={{ translateY: "-100%" }}

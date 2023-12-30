@@ -2,7 +2,9 @@ import { logo } from "../../assets";
 import { FaSearch, FaHome } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { RxAvatar } from "react-icons/rx";
-import { MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogout, MdSell } from "react-icons/md";
+import { GiHouseKeys } from "react-icons/gi";
+
 
 import { motion } from "framer-motion";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -70,11 +72,7 @@ export default function Navbar() {
         {/* 1. Logo and the Logo name */}
         <Link to="/">
           <div className="flex items-center gap-1 mr-1">
-            <img
-              src={logo}
-              alt="logo"
-              className="object-contain w-[8rem]"
-            />
+            <img src={logo} alt="logo" className="object-contain xs:w-[8rem] w-[5rem]" />
           </div>
         </Link>
 
@@ -108,12 +106,12 @@ export default function Navbar() {
               <LinkText
                 text="Sell"
                 path="/search?type=sale"
-                customCss="sm:mr-4 mr-2 text-lg"
+                customCss="sm:mr-4 mr-2 text-lg sm:flex hidden"
               />
               <LinkText
                 text="Rent"
                 path="/search?type=rent"
-                customCss="sm:mr-4 mr-2 text-lg"
+                customCss="sm:mr-4 mr-2 text-lg sm:flex hidden"
               />
               <img
                 src={userInfo.avatar}
@@ -148,6 +146,20 @@ export default function Navbar() {
                       customCss="hover:text-gray-600 hover:scale-95 font-normal"
                     />
                   </Link>
+                  <Link to="/search?type=sale" onClick={() => setIsMenuOpen(false)} className="sm:hidden flex">
+                    <IconWithText
+                      text="Sell"
+                      icon={<MdSell className="text-2xl" />}
+                      customCss="hover:text-gray-600 hover:scale-95 font-normal"
+                    />
+                  </Link>
+                  <Link to="/search?type=rent" onClick={() => setIsMenuOpen(false)} className="sm:hidden flex">
+                    <IconWithText
+                      text="Rent"
+                      icon={<GiHouseKeys className="text-2xl" />}
+                      customCss="hover:text-gray-600 hover:scale-95 font-normal"
+                    />
+                  </Link>
                   <Link onClick={logoutHandler} to="/">
                     <IconWithText
                       text="Logout"
@@ -162,12 +174,10 @@ export default function Navbar() {
             <>
               {/* 3B. NOT LOGIN: Display login and register links */}
               <Link to="/login" className="">
-                <li className="hidden md:flex sm:text-base text-xs hover:scale-105">
-                  Login
-                </li>
+                <li className="sm:text-base text-xs hover:scale-105">Login</li>
               </Link>
               <Link to="/register">
-                <li className="px-4 py-2 bg-primary text-white rounded-md xs:text-base text-xs hover:scale-105">
+                <li className="hidden md:flex px-4 py-2 bg-primary text-white rounded-md xs:text-base text-xs hover:scale-105">
                   Register
                 </li>
               </Link>
