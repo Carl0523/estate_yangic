@@ -146,6 +146,8 @@ export default function Navbar() {
                       customCss="hover:text-gray-600 hover:scale-95 font-normal"
                     />
                   </Link>
+
+                  {/* ------------------------- ONLY DISPLAY WHEN SCREEN WIDTH LESS THAN 640px  -------------------------  */}
                   <Link to="/search?type=sale" onClick={() => setIsMenuOpen(false)} className="sm:hidden flex">
                     <IconWithText
                       text="Sell"
@@ -160,6 +162,8 @@ export default function Navbar() {
                       customCss="hover:text-gray-600 hover:scale-95 font-normal"
                     />
                   </Link>
+                  {/* ---------------------------------------------------------------------------  */}
+
                   <Link onClick={logoutHandler} to="/">
                     <IconWithText
                       text="Logout"
