@@ -5,7 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
-import homesRouter from './routes/homes.route.js';
+import homesRouter from "./routes/homes.route.js";
 
 import path from "path";
 
@@ -21,10 +21,9 @@ mongoose
     console.log(error);
   });
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const app = express();
-
 
 app.use(
   cors({
@@ -32,6 +31,7 @@ app.use(
     credentials: true,
   })
 );
+
 
 
 app.use(cookieParser());
@@ -45,11 +45,11 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/homes", homesRouter);
 
-app.use(express.static(path.join(_dirname, '/frontend/dist')));
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(_dirname, 'frontend', 'dist', 'index.html'));
-})
+app.get("*", (req, res) => {
+  res.sendFile(path.join(_dirname, "frontend", "dist", "index.html"));
+});
 
 // Middleware function to handle the error
 app.use((err, req, res, next) => {
