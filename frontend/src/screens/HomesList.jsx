@@ -17,7 +17,7 @@ export default function HomesList() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/homes/list/${userInfo._id}`, {
+      .get(`https://home-yonder.onrender.com/api/homes/list/${userInfo._id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -31,7 +31,7 @@ export default function HomesList() {
 
   const deleteHandler = (homeId) => {
     axios
-      .delete(`http://localhost:5000/api/homes/delete/${homeId}`, {
+      .delete(`https://home-yonder.onrender.com/api/homes/delete/${homeId}`, {
         withCredentials: true,
       })
       .then((res) => {

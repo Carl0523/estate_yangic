@@ -34,7 +34,7 @@ export default function Navbar() {
   const logoutHandler = () => {
     axios
       .post(
-        "http://localhost:5000/api/auth/logout",
+        "https://home-yonder.onrender.com/api/auth/logout",
         {},
         { withCredentials: true }
       )

@@ -40,7 +40,7 @@ export default function UpdateHome() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/homes/home/${homeId}`, {
+      .get(`https://home-yonder.onrender.com/api/homes/home/${homeId}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -143,7 +143,7 @@ export default function UpdateHome() {
       return;
     }
     axios
-      .post(`http://localhost:5000/api/homes/update/${homeId}`, form, {
+      .post(`https://home-yonder.onrender.com/api/homes/update/${homeId}`, form, {
         withCredentials: true,
       })
       .then((res) => {

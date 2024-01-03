@@ -7,7 +7,7 @@ export default function RecentHomes() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/homes/list", {
+      .get("https://home-yonder.onrender.com/api/homes/list", {
         withCredentials: true,
       })
       .then((res) => {
