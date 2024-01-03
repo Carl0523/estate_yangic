@@ -21,7 +21,7 @@ export default function Search() {
     const newUrlParams = new URLSearchParams(urlParams);
     newUrlParams.set("startIndex", startIndex);
     axios
-      .get(`http://localhost:3000/api/homes/list?${newUrlParams}`, {
+      .get(`http://localhost:5000/api/homes/list?${newUrlParams}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -38,7 +38,7 @@ export default function Search() {
   // Update the homeList state with retrieved data and set isLoading state to false
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/homes/list?${urlParams}`, {
+      .get(`http://localhost:5000/api/homes/list?${urlParams}`, {
         withCredentials: true,
       })
       .then((res) => {

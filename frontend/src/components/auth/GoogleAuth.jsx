@@ -22,7 +22,7 @@ export default function GoogleAuth() {
       // Return the result with user info (credentials) if success
       const result = await signInWithPopup(auth, provider);
 
-      axios.post("http://localhost:3000/api/auth/google", {
+      axios.post("http://localhost:5000/api/auth/google", {
         name: result.user.displayName,
         email: result.user.email,
         photo: result.user.photoURL,

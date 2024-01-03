@@ -17,7 +17,7 @@ export default function ContactModal({ userId, homeName, onClose }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/user/userInfo/${userId}`, {
+      .get(`http://localhost:5000/api/user/userInfo/${userId}`, {
         withCredentials: true,
       })
       .then((res) => {

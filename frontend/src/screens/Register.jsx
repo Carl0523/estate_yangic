@@ -50,7 +50,7 @@ export default function Register() {
       return;
     }
     axios
-      .post("http://localhost:3000/api/auth/register", form, {
+      .post("http://localhost:5000/api/auth/register", form, {
         withCredentials: true,
       })
       .then((res) => {

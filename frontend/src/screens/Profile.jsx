@@ -47,7 +47,7 @@ export default function Profile() {
 
   const handleDeleteAccount = () => {
     axios
-      .delete(`http://localhost:3000/api/user/delete/${userInfo._id}`, {
+      .delete(`http://localhost:5000/api/user/delete/${userInfo._id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -117,7 +117,7 @@ export default function Profile() {
 
     const { confirmPassword, ...rest } = form;
     axios
-      .post(`http://localhost:3000/api/user/update/${userInfo._id}`, rest, {
+      .post(`http://localhost:5000/api/user/update/${userInfo._id}`, rest, {
         withCredentials: true,
       })
       .then((res) => {

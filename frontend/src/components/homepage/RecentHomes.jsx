@@ -7,7 +7,7 @@ export default function RecentHomes() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/homes/list", {
+      .get("http://localhost:5000/api/homes/list", {
         withCredentials: true,
       })
       .then((res) => {

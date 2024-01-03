@@ -130,7 +130,7 @@ export default function AddHome() {
       return;
     }
     axios
-      .post("http://localhost:3000/api/homes/create", {...form, userRef: userInfo._id}, {
+      .post("http://localhost:5000/api/homes/create", {...form, userRef: userInfo._id}, {
         withCredentials: true,
       })
       .then((res) => {

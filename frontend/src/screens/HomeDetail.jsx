@@ -35,7 +35,7 @@ export default function HomeDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/homes/home/${homeId}`)
+      .get(`http://localhost:5000/api/homes/home/${homeId}`)
       .then((res) => {
         setHomeDetail(res.data);
         setIsLoading(false);
